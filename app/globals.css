@@ -18,15 +18,23 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #f8fafc;
-    --foreground: #0f172a;
-  }
-
-  .dark {
     --background: #020617;
     --foreground: #e2e8f0;
   }
 }
+
+/* next-themes sets .dark on <html>, so these vars must apply whenever class is present */
+.dark {
+  --background: #020617;
+  --foreground: #e2e8f0;
+}
+
+/* override if explicit light class is applied, or defaults reset */
+.light {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+}
+
 
 /* =========================
    🧱 BASE
