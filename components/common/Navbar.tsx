@@ -3,108 +3,120 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import ThemeToggle from "../ThemeToggle";
-import Hamburger from "../Hamburger";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // 1. Prevent Hydration Mismatch
   useEffect(() => setMounted(true), []);
 
-  // 2. COOL FEATURE: Lock scroll when menu is open
+  // Lock scroll when menu is open
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
+    document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset';
   }, [isMenuOpen]);
 
   const navLinks = [
-    { name: "Who Are We", href: "/" },
-    { name: "Services", href: "/All-Services" },
+    { name: "Service", href: "/All-Services" },
+    { name: "Work", href: "/work" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contacts" },
   ];
 
   return (
-    <header className="p-4 md:px-8 flex justify-between items-center bg-background/95 backdrop-blur-sm sticky top-0 border-b border-default z-[100]">
+    <header className="p-4 md:px-10 flex justify-between items-center bg-background/80 backdrop-blur-md sticky top-0 border-b border-default z-[100]">
       
-      {/* Logo - Always visible with higher z-index */}
-      <Link href="/" className="z-[110]" onClick={() => setIsMenuOpen(false)}>
+      {/* Logo */}
+      <Link href="/" className="z-[120]" onClick={() => setIsMenuOpen(false)}>
         <img 
           src={mounted && resolvedTheme === "dark" ? "/images/Creativoxa-White-minn.webp" : "/images/creativoxa-logo-645-x-160.png"}
-          alt="Creativoxa Logo"
-          className="h-8 sm:h-10 w-auto transition-opacity duration-300"
+          alt="Creativoxa"
+          className="h-7 md:h-9 w-auto"
         />
       </Link>
 
-      {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center space-x-8">
+      {/* Desktop Links */}
+      <nav className="hidden md:flex items-center space-x-10">
         {navLinks.map((link) => (
-          <Link 
-            key={link.name} 
-            href={link.href} 
-            className="text-foreground/80 hover:text-primary font-medium transition-colors duration-200"
-          >
+          <Link key={link.name} href={link.href} className="text-sm font-semibold uppercase tracking-widest text-foreground/70 hover:text-primary transition-colors">
             {link.name}
           </Link>
         ))}
       </nav>
 
-      {/* Right Side Actions - Always visible */}
-      <div className="flex items-center gap-2 sm:gap-4 z-[110]">
+      {/* Right Side Actions */}
+      <div className="flex items-center gap-4 z-[120]">
         <ThemeToggle />
-        
-        <Link href="/contacts" className="hidden sm:block btn-primary !py-2 !px-5 text-sm">
-          Get Started
+        <Link href="/contacts" className="hidden md:block btn-primary !py-2.5 !px-6 text-xs uppercase tracking-widest font-bold">
+          Start a Project
         </Link>
+        
+        {/* ADDED BACK: Mobile Menu Toggle Button */}
+        <button 
+          className="md:hidden p-2 text-foreground focus:outline-none"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle Menu"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            {isMenuOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+      </div>
 
-        {/* Hamburger - Ensure this z-index is above overlay */}
-        <div className="md:hidden flex items-center">
-          <Hamburger 
-            isOpen={isMenuOpen} 
-            onClick={() => setIsMenuOpen(!isMenuOpen)} 
-          />
+      {/* --- RE-DESIGNED MOBILE MENU --- */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-[110] md:hidden transition-all duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] opacity-100 pointer-events-auto">
+          {/* Glass Background Overlay */}
+          <div className="absolute inset-0 bg-background/95 backdrop-blur-2xl" />
+
+          <div className="relative h-full flex flex-col justify-between p-8 pt-32">
+
+          {/* Main Links with High-Impact Typography */}
+          <nav className="flex flex-col space-y-6">
+            <p className="text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4">Navigation</p>
+            {navLinks.map((link, i) => (
+              <Link 
+                key={link.name} 
+                href={link.href} 
+                onClick={() => setIsMenuOpen(false)}
+                style={{ transitionDelay: `${i * 100 + 200}ms` }}
+                className={`
+                  text-5xl font-black text-foreground tracking-tighter transition-all duration-700
+                  ${isMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}
+                `}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Footer of the Menu */}
+          <div className={`
+            border-t border-default pt-8 transition-all duration-1000 delay-500
+            ${isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}
+          `}>
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <p className="text-muted text-[10px] uppercase font-bold tracking-widest mb-2">Socials</p>
+                <div className="flex space-x-4 text-foreground">
+                  <a href="#" className="hover:text-primary transition-colors">IG</a>
+                  <a href="#" className="hover:text-primary transition-colors">LI</a>
+                  <a href="#" className="hover:text-primary transition-colors">TW</a>
+                </div>
+              </div>
+              <div>
+                <p className="text-muted text-[10px] uppercase font-bold tracking-widest mb-2">Project Inquiries</p>
+                <p className="text-sm font-medium">hello@creativoxa.in</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Mobile Menu Overlay */}
-      <div className={`
-        fixed inset-0 bg-background md:hidden z-[105]
-        transition-all duration-500 ease-in-out
-        ${isMenuOpen ? "opacity-100 visible translate-x-0" : "opacity-0 invisible translate-x-full"}
-      `}>
-        <nav className="flex flex-col items-center justify-center h-full space-y-8">
-          {navLinks.map((link, i) => (
-            <Link 
-              key={link.name} 
-              href={link.href} 
-              onClick={() => setIsMenuOpen(false)}
-              style={{ transitionDelay: `${i * 100}ms` }}
-              className={`
-                text-3xl font-bold text-foreground transition-all duration-500
-                ${isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}
-              `}
-            >
-              {link.name}
-            </Link>
-          ))}
-          
-          <Link 
-            href="/contacts" 
-            onClick={() => setIsMenuOpen(false)} 
-            className={`
-              btn-primary w-2/3 text-center text-lg transition-all duration-700 delay-300
-              ${isMenuOpen ? "opacity-100 scale-100" : "opacity-0 scale-90"}
-            `}
-          >
-            Get Started
-          </Link>
-        </nav>
-      </div>
+      )}
     </header>
   );
 }

@@ -58,7 +58,7 @@ export default function RootLayout({
             href="https://api.whatsapp.com/send?phone=917679587581&text=Hello!%20I'm%20interested%20in%20your%20services."
             target="_blank"
             rel="noopener noreferrer"
-            className="fixed bottom-5 right-5 z-50 bg-primary w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg transform hover:scale-110 transition-transform duration-300"
+            className="fixed bottom-5 right-5 z-[115] bg-primary w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg transform hover:scale-110 transition-transform duration-300"
           >
             <i className="fab fa-whatsapp text-4xl"></i>
           </a>

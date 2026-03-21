@@ -53,7 +53,7 @@ export default function ContactFormPanel() {
   };
 
   return (
-    <div className="fixed right-0 top-1/2 -translate-y-1/2 z-[60] flex items-center pointer-events-none">
+    <div className="fixed right-0 top-1/2 -translate-y-1/2 z-[110] flex items-center pointer-events-none md:z-[90]">
       {/* Tab Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
