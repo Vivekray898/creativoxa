@@ -14,7 +14,7 @@ export default function WorkPage() {
       <WorkHero />
       <WorkGrid />
       <div className="mt-20">
-        <FinalCTA />
+        <FinalCTA href="/contact" label="Request a Quote" subtext="Like what you see? Let’s talk budget and timeline." />
       </div>
     </main>
   );

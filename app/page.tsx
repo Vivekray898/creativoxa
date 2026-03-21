@@ -26,7 +26,7 @@ export default function HomePage() {
       <Process />
       <Testimonials />
       <FAQ />
-      <FinalCTA />
+      <FinalCTA href="/All-Services" label="Explore Services" subtext="Interested? Learn how we can build this for you." />
     </div>
   );
 }

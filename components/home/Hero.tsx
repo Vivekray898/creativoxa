@@ -16,7 +16,7 @@ export default function Hero() {
             Stop losing customers to your competitors. We help local businesses, startups, and e-commerce brands dominate the Siliguri market through expert SEO, Web Design, and Paid Ads.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-            <Link href="/contacts" className="btn-primary w-full sm:w-auto text-center">
+            <Link href="/contact" className="btn-primary w-full sm:w-auto text-center">
               Get Your Free Growth Audit
             </Link>
             <Link href="/All-Services" className="btn-secondary w-full sm:w-auto text-center">

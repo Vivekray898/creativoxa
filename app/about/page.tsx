@@ -20,7 +20,7 @@ export default function AboutPage() {
       <Philosophy />
       <TeamCulture />
       <div className="bg-background py-10">
-        <FinalCTA />
+        <FinalCTA href="/work" label="Explore Our Work" subtext="Liked our mission? See the outcomes we deliver." />
       </div>
     </main>
   );

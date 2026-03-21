@@ -61,10 +61,10 @@ export default function Navbar() {
       {/* --- NEW MOBILE MENU --- */}
       <div className={`
         fixed inset-0 z-[110] md:hidden transition-all duration-700 ease-[cubic-bezier(0.8,0,0.1,1)]
-        ${isMenuOpen ? "translate-y-0" : "-translate-y-full opacity-0"}
+        ${isMenuOpen ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-full opacity-0 pointer-events-none"}
       `}>
         {/* Background */}
-        <div className="absolute inset-0 bg-background/98 backdrop-blur-2xl" />
+        <div className="absolute inset-0 bg-background/98 backdrop-blur-2xl" onClick={() => setIsMenuOpen(false)} />
 
         <div className="relative h-full flex flex-col justify-between p-8 pt-32">
           

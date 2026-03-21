@@ -19,7 +19,7 @@ export default function ServicesPage() {
       <div className="bg-slate-50 dark:bg-slate-900/50">
         <Process />
       </div>
-      <FinalCTA />
+      <FinalCTA href="/work" label="See Our Work" subtext="Ready to review case studies?" />
     </main>
   );
 }

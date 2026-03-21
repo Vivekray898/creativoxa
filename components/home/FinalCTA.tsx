@@ -1,6 +1,12 @@
 import Link from 'next/link';
 
-export default function FinalCTA() {
+type FinalCTAProps = {
+  href?: string;
+  label?: string;
+  subtext?: string;
+};
+
+export default function FinalCTA({ href = '/contacts', label = "Let's Talk Business", subtext = 'No commitment required. Just expert advice.' }: FinalCTAProps) {
   return (
     <section className="py-24 bg-background text-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Abstract Background Decoration */}
@@ -17,13 +23,13 @@ export default function FinalCTA() {
           Stop guessing and start growing. Get a free, no-obligation technical audit of your website and a custom marketing strategy today.
         </p>
         <Link 
-          href="/contacts" 
+          href={href} 
           className="btn-primary inline-block text-lg py-4 px-10 rounded-full shadow-2xl hover:scale-105 transition-transform active:scale-95"
         >
-          Let's Talk Business <i className="fas fa-arrow-right ml-2"></i>
+          {label} <i className="fas fa-arrow-right ml-2"></i>
         </Link>
         <p className="text-muted text-sm mt-6 opacity-80">
-          No commitment required. Just expert advice.
+          {subtext}
         </p>
       </div>
     </section>

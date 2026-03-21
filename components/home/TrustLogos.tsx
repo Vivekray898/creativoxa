@@ -1,5 +1,5 @@
 export default function TrustLogos() {
-  const brands = ["SpiceNest", "HimalayanStays", "SiliguriRetail", "EduCare Hub", "CityHealth"];
+  const brands = ["Safar Tour", "Sana Clothing", "Fundgrube Bestpreis", "Spice Lounge", "Loanzaar", "GreenAce Developer", "Markqent"];
   
   return (
     <section className="bg-background py-10 border-b border-default">
