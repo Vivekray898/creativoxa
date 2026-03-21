@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 
 // Components
 import Navbar from "@/components/common/Navbar";
@@ -68,6 +70,9 @@ export default function RootLayout({
           <Footer />
 
         </ThemeProviderWrapper>
+
+        <Analytics />
+        <SpeedInsights />
 
       </body>
     </html>
