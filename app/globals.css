@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography"; /* 👈 Add this line */
 
 /* =========================
    🎨 DESIGN TOKENS
@@ -16,7 +17,7 @@
   --muted: #64748b;
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
     --background: #020617;
     --foreground: #e2e8f0;
@@ -88,6 +89,32 @@
   .text-foreground { color: var(--foreground); }
   .text-muted { color: var(--muted); }
   .text-primary { color: var(--primary); }
+
+  /* Ensure typography plugin matches global brand color system */
+  .prose,
+  .prose p,
+  .prose li,
+  .prose strong,
+  .prose blockquote,
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    color: var(--foreground);
+  }
+
+  .prose a,
+  .prose a:hover,
+  .prose a:active,
+  .prose a:focus {
+    color: var(--primary);
+  }
+
+  .prose blockquote {
+    border-color: var(--primary);
+  }
 
   .bg-background { background-color: var(--background); }
   .bg-foreground { background-color: var(--foreground); }
