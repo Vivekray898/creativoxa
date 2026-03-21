@@ -14,9 +14,9 @@ export default function ContactInfo() {
     },
     {
       title: "Email Queries",
-      content: "hello@creativoxa.in",
+      content: "contact@creativoxa.in",
       icon: "fa-envelope",
-      link: "mailto:hello@creativoxa.in"
+      link: "mailto:contact@creativoxa.in"
     }
   ];
 

@@ -79,7 +79,7 @@ export default function Footer() {
               </p>
               <p className="flex items-center gap-2">
                 <i className="fas fa-envelope text-primary w-4"></i>
-                hello@creativoxa.in
+                contact@creativoxa.in
               </p>
             </div>
           </div>
