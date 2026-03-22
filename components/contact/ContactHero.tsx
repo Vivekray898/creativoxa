@@ -45,11 +45,11 @@ export default function ContactHero() {
                 </div>
                 contact@creativoxa.in
               </a>
-              <a href="tel:+919876543210" className="group flex items-center gap-4 text-foreground hover:text-primary transition-colors">
+              <a href="tel:+917679587581" className="group flex items-center gap-4 text-foreground hover:text-primary transition-colors">
                 <div className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
                   <i className="fas fa-phone text-muted group-hover:text-primary transition-colors"></i>
                 </div>
-                +91 98765 43210
+                +91 76795 87581
               </a>
             </div>
           </div>
