@@ -39,11 +39,11 @@ export default function ContactHero() {
             
             {/* Quick Contact Metadata */}
             <div className="flex flex-col gap-4 text-sm font-bold tracking-widest uppercase">
-              <a href="mailto:hello@creativoxa.com" className="group flex items-center gap-4 text-foreground hover:text-primary transition-colors">
+              <a href="mailto:contact@creativoxa.in" className="group flex items-center gap-4 text-foreground hover:text-primary transition-colors">
                 <div className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
                   <i className="fas fa-envelope text-muted group-hover:text-primary transition-colors"></i>
                 </div>
-                hello@creativoxa.com
+                contact@creativoxa.in
               </a>
               <a href="tel:+919876543210" className="group flex items-center gap-4 text-foreground hover:text-primary transition-colors">
                 <div className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
