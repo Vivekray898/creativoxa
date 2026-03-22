@@ -21,31 +21,82 @@ export default function Testimonials() {
   ];
 
   return (
-    <section className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-primary font-bold tracking-wide uppercase text-sm mb-3">Client Reviews</h2>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-foreground">What Our Siliguri Clients Say.</h3>
+    <section className="py-24 md:py-32 bg-background relative overflow-hidden">
+      
+      {/* Subtle Background Glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-primary/5 rounded-[100%] blur-[120px] pointer-events-none translate-y-1/2"></div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        
+        {/* 🔥 Premium Split Header */}
+        <div className="mb-16 md:mb-24 flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+          <div className="max-w-3xl">
+            <p className="text-primary font-bold uppercase tracking-[0.4em] text-[10px] mb-4 pl-1">
+              Client Impact
+            </p>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-foreground leading-[0.9]">
+              VALIDATED BY <br className="hidden md:block" />
+              <span className="text-muted">LEADERS.</span>
+            </h2>
+          </div>
+          
+          <div className="max-w-md lg:border-l-2 lg:border-primary lg:pl-8">
+            <p className="text-muted text-lg font-medium leading-relaxed">
+              We partner with visionary local brands in Siliguri to engineer digital growth that translates directly into revenue and market dominance.
+            </p>
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        {/* 🧱 Architectural Review Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {reviews.map((r, i) => (
-            <div key={i} className="bg-background p-8 rounded-2xl shadow-sm border border-default flex flex-col hover:shadow-md transition-shadow">
-              <div className="flex text-primary mb-4 text-sm">
-                {[...Array(5)].map((_, i) => <i key={i} className="fas fa-star"></i>)}
+            <div 
+              key={i} 
+              className="group relative p-8 md:p-10 rounded-[2rem] border border-default bg-background/50 backdrop-blur-xl hover:bg-foreground/[0.02] hover:border-primary/40 transition-all duration-500 shadow-sm hover:shadow-xl flex flex-col h-full overflow-hidden"
+            >
+              
+              {/* Massive Quote Watermark */}
+              <span className="absolute -top-4 -right-2 text-[10rem] font-serif text-foreground/[0.03] group-hover:text-primary/[0.05] transition-colors duration-700 pointer-events-none select-none leading-none">
+                "
+              </span>
+
+              {/* Minimalist Star Rating */}
+              <div className="flex gap-1 text-primary mb-8 relative z-10">
+                {[...Array(5)].map((_, index) => (
+                  <i key={index} className="fas fa-star text-sm"></i>
+                ))}
               </div>
-              <p className="text-muted italic mb-6 flex-grow">"{r.text}"</p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center font-bold bg-primary/20 text-primary">
+
+              {/* Editorial Quote Text */}
+              <p className="text-xl md:text-2xl font-semibold leading-relaxed tracking-tight text-foreground mb-12 flex-grow group-hover:text-primary transition-colors duration-300 relative z-10">
+                "{r.text}"
+              </p>
+
+              {/* Client Info (Bottom Border Anchored) */}
+              <div className="flex items-center gap-4 pt-6 border-t border-default relative z-10">
+                {/* Magic Hover Line over the border */}
+                <div className="absolute top-0 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-700 ease-out"></div>
+                
+                {/* Avatar Box */}
+                <div className="w-12 h-12 rounded-xl bg-foreground/5 flex items-center justify-center font-bold text-foreground group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm">
                   {r.initials}
                 </div>
+                
+                {/* Name & Role */}
                 <div>
-                  <h5 className="font-bold text-foreground text-sm">{r.name}</h5>
-                  <p className="text-xs text-muted">{r.role}</p>
+                  <h5 className="font-black tracking-tight text-foreground text-base">
+                    {r.name}
+                  </h5>
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-muted mt-0.5">
+                    {r.role}
+                  </p>
                 </div>
               </div>
+
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );

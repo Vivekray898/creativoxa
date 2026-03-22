@@ -1,29 +1,114 @@
+import Link from "next/link";
+
 const services = [
-  { title: "SEO & Local Search", desc: "Dominate Google rankings in Siliguri. We optimize your GMB profile so customers find you first.", icon: "fa-search", color: "blue" },
-  { title: "Web Design & Dev", desc: "Lightning-fast, mobile-friendly websites designed specifically to convert visitors into leads.", icon: "fa-laptop-code", color: "violet" },
-  { title: "Performance Marketing", desc: "Targeted Facebook, Instagram, and Google Ads that deliver instant, trackable ROI.", icon: "fa-bullseye", color: "orange" },
+  { 
+    title: "Full-Stack Development", 
+    desc: "Next-generation web applications engineered with Next.js, React, and Supabase. We build lightning-fast, scalable platforms that out-perform the competition.", 
+    icon: "fa-code",
+    href: "/services/development"
+  },
+  { 
+    title: "Technical SEO & Search", 
+    desc: "Algorithmic domination. We restructure your digital footprint, optimize core web vitals, and ensure your brand commands the top positions on Google.", 
+    icon: "fa-magnifying-glass-chart",
+    href: "/services/seo"
+  },
+  { 
+    title: "Performance Marketing", 
+    desc: "Data-driven advertising ecosystems across Google and Meta. We deploy targeted capital to acquire high-value customers with a strict focus on ROI.", 
+    icon: "fa-crosshairs",
+    href: "/services/marketing"
+  },
+  { 
+    title: "UI/UX & Brand Architecture", 
+    desc: "Psychology-backed interface design. We craft immersive, conversion-optimized user experiences that build immediate trust and authority.", 
+    icon: "fa-pen-nib",
+    href: "/services/design"
+  },
+  { 
+    title: "Conversion Optimization (CRO)", 
+    desc: "Traffic is useless if it doesn't convert. We utilize A/B testing, heatmaps, and friction-removal strategies to multiply your lead generation.", 
+    icon: "fa-filter-circle-dollar",
+    href: "/services/cro"
+  },
+  { 
+    title: "Custom Automations", 
+    desc: "Internal dashboards, automated booking systems, and CRM integrations tailored to replace manual labor and scale your operations effortlessly.", 
+    icon: "fa-gears",
+    href: "/services/automation"
+  }
 ];
 
 export default function Services() {
   return (
-    <section className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-primary font-bold tracking-wide uppercase text-sm mb-3">Our Expertise</h2>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-foreground mb-6">Integrated Digital Solutions.</h3>
-          <p className="text-muted text-lg">Predictable growth engines for your business.</p>
+    <section className="py-24 md:py-32 bg-background relative overflow-hidden">
+      
+      {/* Subtle Background Glow */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        
+        {/* 🔥 Premium Split Header */}
+        <div className="mb-16 md:mb-24 flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+          <div className="max-w-3xl">
+            <p className="text-primary font-bold uppercase tracking-[0.4em] text-[10px] mb-4 pl-1">
+              Core Capabilities
+            </p>
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-foreground leading-[0.9]">
+              DIGITAL <br className="hidden md:block" />
+              <span className="text-muted">INFRASTRUCTURE.</span>
+            </h2>
+          </div>
+          
+          <div className="max-w-md lg:border-l-2 lg:border-primary lg:pl-8">
+            <p className="text-muted text-lg font-medium leading-relaxed">
+              We engineer predictable growth engines. From high-performance web architecture to aggressive acquisition campaigns, we build systems designed to scale.
+            </p>
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {services.map((s, i) => (
-            <div key={i} className="bg-background p-8 rounded-2xl shadow-sm border border-default hover:shadow-xl transition-all group">
-              <div className="w-14 h-14 bg-primary/20 text-primary rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:rotate-12 transition-transform">
-                <i className={`fas ${s.icon}`}></i>
+
+        {/* 🧱 Architectural Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {services.map((service, i) => (
+            <Link 
+              key={i} 
+              href={service.href} 
+              className="group block h-full"
+            >
+              <div className="h-full flex flex-col p-8 md:p-10 rounded-[2rem] border border-default bg-background/50 backdrop-blur-xl hover:bg-foreground/[0.02] hover:border-primary/40 transition-all duration-500 relative overflow-hidden shadow-sm hover:shadow-xl">
+                
+                {/* Decorative Glowing Orb (Visible on hover) */}
+                <div className="absolute -right-10 -top-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-700 pointer-events-none"></div>
+
+                {/* Icon Container */}
+                <div className="w-14 h-14 rounded-2xl bg-foreground/5 flex items-center justify-center mb-8 text-foreground group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm relative z-10">
+                  <i className={`fas ${service.icon} text-xl`}></i> 
+                </div>
+                
+                {/* Text Content */}
+                <div className="relative z-10 flex-grow">
+                  <h3 className="text-2xl font-black tracking-tight text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
+                    {service.title}
+                  </h3>
+                  <p className="text-muted text-sm leading-relaxed font-medium mb-8">
+                    {service.desc}
+                  </p>
+                </div>
+
+                {/* Animated Footer Link */}
+                <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-foreground group-hover:text-primary transition-colors mt-auto pt-6 border-t border-default/30 relative z-10">
+                  Explore Capability 
+                  <i className="fas fa-arrow-right group-hover:translate-x-2 transition-transform duration-300"></i>
+                </div>
+
+                {/* Bottom Border Accent */}
+                <div className="absolute bottom-0 left-0 h-1 bg-primary w-0 group-hover:w-full transition-all duration-700 ease-out opacity-50"></div>
+
               </div>
-              <h4 className="text-xl font-bold text-foreground mb-3">{s.title}</h4>
-              <p className="text-muted">{s.desc}</p>
-            </div>
+            </Link>
           ))}
         </div>
+
       </div>
     </section>
   );
