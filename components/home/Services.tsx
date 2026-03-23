@@ -1,45 +1,28 @@
 import Link from "next/link";
+import { supabase } from '@/lib/supabase';
 
-const services = [
-  { 
-    title: "Full-Stack Development", 
-    desc: "Next-generation web applications engineered with Next.js, React, and Supabase. We build lightning-fast, scalable platforms that out-perform the competition.", 
-    icon: "fa-code",
-    href: "/services/development"
-  },
-  { 
-    title: "Technical SEO & Search", 
-    desc: "Algorithmic domination. We restructure your digital footprint, optimize core web vitals, and ensure your brand commands the top positions on Google.", 
-    icon: "fa-magnifying-glass-chart",
-    href: "/services/seo"
-  },
-  { 
-    title: "Performance Marketing", 
-    desc: "Data-driven advertising ecosystems across Google and Meta. We deploy targeted capital to acquire high-value customers with a strict focus on ROI.", 
-    icon: "fa-crosshairs",
-    href: "/services/marketing"
-  },
-  { 
-    title: "UI/UX & Brand Architecture", 
-    desc: "Psychology-backed interface design. We craft immersive, conversion-optimized user experiences that build immediate trust and authority.", 
-    icon: "fa-pen-nib",
-    href: "/services/design"
-  },
-  { 
-    title: "Conversion Optimization (CRO)", 
-    desc: "Traffic is useless if it doesn't convert. We utilize A/B testing, heatmaps, and friction-removal strategies to multiply your lead generation.", 
-    icon: "fa-filter-circle-dollar",
-    href: "/services/cro"
-  },
-  { 
-    title: "Custom Automations", 
-    desc: "Internal dashboards, automated booking systems, and CRM integrations tailored to replace manual labor and scale your operations effortlessly.", 
-    icon: "fa-gears",
-    href: "/services/automation"
-  }
-];
+// 🔥 Keep the data fresh every 60 seconds
+export const revalidate = 60;
 
-export default function Services() {
+// Type definition updated to match your database
+type Service = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string; // ✅ Updated here
+  icon: string;
+};
+
+export default async function Services() {
+  // 🔌 Updated select statement to use 'description'
+  const { data: services, error } = await supabase
+    .from('services')
+    .select('id, slug, title, description, icon') // ✅ Updated here
+    .order('created_at', { ascending: true });
+
+  // Optional: Log any database errors to your terminal to help debug
+  if (error) console.error("Supabase Error:", error);
+
   return (
     <section className="py-24 md:py-32 bg-background relative overflow-hidden">
       
@@ -69,15 +52,15 @@ export default function Services() {
 
         {/* 🧱 Architectural Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {services.map((service, i) => (
+          {services?.map((service: Service) => (
             <Link 
-              key={i} 
-              href={service.href} 
+              key={service.id} 
+              href={`/services/${service.slug}`} 
               className="group block h-full"
             >
               <div className="h-full flex flex-col p-8 md:p-10 rounded-[2rem] border border-default bg-background/50 backdrop-blur-xl hover:bg-foreground/[0.02] hover:border-primary/40 transition-all duration-500 relative overflow-hidden shadow-sm hover:shadow-xl">
                 
-                {/* Decorative Glowing Orb (Visible on hover) */}
+                {/* Decorative Glowing Orb */}
                 <div className="absolute -right-10 -top-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-700 pointer-events-none"></div>
 
                 {/* Icon Container */}
@@ -91,7 +74,7 @@ export default function Services() {
                     {service.title}
                   </h3>
                   <p className="text-muted text-sm leading-relaxed font-medium mb-8">
-                    {service.desc}
+                    {service.description} {/* ✅ Updated here */}
                   </p>
                 </div>
 
