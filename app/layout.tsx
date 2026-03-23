@@ -2,7 +2,6 @@ import ThemeProviderWrapper from "@/components/ThemeProviderWrapper";
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
-import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 
@@ -11,6 +10,7 @@ import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import ContactFormPanel from "@/components/ContactFormPanel";
 import FloatingSocialBar from "@/components/FloatingSocialBar";
+import TrackingScripts from "@/components/TrackingScripts"; // ✅ 1. Imported your tracking scripts
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const poppins = Poppins({ 
@@ -22,6 +22,11 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Creativoxa - Modern Digital Agency",
   description: "Architects of your digital future with data-driven strategies.",
+  // ✅ 2. Added Microsoft and Monetag verifications here
+  other: {
+    'msvalidate.01': 'B6B429E810881CB55DFFDC57DD0939EA',
+    'monetag': '76f5ba6b8e8851330f2d37f20152421c',
+  },
 };
 
 export default function RootLayout({
@@ -37,15 +42,14 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
         />
-
-        {/* 📊 Facebook Pixel */}
-        <Script id="fb-pixel-1" strategy="afterInteractive">
-          {`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '858693652813158');fbq('track', 'PageView');`}
-        </Script>
+        {/* (Note: FB Pixel was removed from here because it's now handled by TrackingScripts) */}
       </head>
 
       <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`}>
         
+        {/* ✅ 3. Inject tracking scripts at the top of the body */}
+        <TrackingScripts />
+
         {/* ✅ ONLY this wrapper */}
         <ThemeProviderWrapper>
 
