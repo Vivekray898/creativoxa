@@ -1,147 +1,296 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography"; /* 👈 Add this line */
+@plugin "@tailwindcss/typography";
 
-/* =========================
-   🎨 DESIGN TOKENS
-========================= */
+/* =========================================================
+   CREATIVOXA DESIGN SYSTEM
+   Neutral editorial foundation + one controlled accent.
+   ========================================================= */
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  /* Surfaces */
+  --background: #fafaf9;
+  --surface: #ffffff;
+  --surface-2: #f4f4f2;
 
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --accent: #7c3aed;
+  /* Ink */
+  --foreground: #16181d;
+  --muted-foreground: #5c6067;
+  --faint-foreground: #8a8f98;
 
-  --border: #e2e8f0;
-  --muted: #64748b;
+  /* Lines */
+  --border: #e4e4e1;
+  --border-strong: #cfcfcb;
+
+  /* Accent */
+  --primary: #1f5eff;
+  --primary-hover: #1a50d8;
+  --primary-foreground: #ffffff;
+  --primary-soft: #eef3ff;
+
+  /* Shape */
+  --radius: 10px;
+
+  /* Layout */
+  --container: 76rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #020617;
-    --foreground: #e2e8f0;
-  }
-}
-
-/* next-themes sets .dark on <html>, so these vars must apply whenever class is present */
 .dark {
-  --background: #020617;
-  --foreground: #e2e8f0;
+  --background: #101114;
+  --surface: #17181c;
+  --surface-2: #1d1f24;
+
+  --foreground: #f2f3f5;
+  --muted-foreground: #a3a7ae;
+  --faint-foreground: #6d7178;
+
+  --border: #2a2c31;
+  --border-strong: #3a3d44;
+
+  --primary: #4d7dff;
+  --primary-hover: #648cff;
+  --primary-foreground: #ffffff;
+  --primary-soft: rgba(77, 125, 255, 0.12);
 }
 
-/* override if explicit light class is applied, or defaults reset */
-.light {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+/* =========================================================
+   THEME MAPPING (Tailwind 4)
+   ========================================================= */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted-foreground);
+  --color-faint: var(--faint-foreground);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --spacing-container: var(--container);
 }
 
-
-/* =========================
-   🧱 BASE
-========================= */
+/* =========================================================
+   BASE
+   ========================================================= */
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background: var(--background);
     color: var(--foreground);
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
+
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Restraint: no giant default prose headings */
 }
 
-/* =========================
-   🔘 COMPONENTS
-========================= */
+/* =========================================================
+   PRIMITIVES
+   ========================================================= */
 
 @layer components {
-  .btn-primary {
-    background: var(--primary);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 12px;
-    border: 1px solid var(--primary);
-    transition: 0.2s ease;
+  /* Buttons — one consistent height & shape */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 3rem;
+    padding: 0 1.5rem;
+    border-radius: calc(var(--radius) + 2px);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.15s ease;
   }
 
-  .btn-primary:hover {
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border: 1px solid transparent;
+  }
+
+  .btn-primary:hover:not(:disabled) {
     background: var(--primary-hover);
   }
 
-  .btn-secondary {
-    background: var(--background);
+  .btn-outline {
+    background: transparent;
     color: var(--foreground);
-    padding: 12px 24px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    transition: 0.2s ease;
+    border: 1px solid var(--border-strong);
   }
 
-  .btn-secondary:hover {
+  .btn-outline:hover:not(:disabled) {
     border-color: var(--foreground);
+    background: var(--surface-2);
   }
-}
 
-/* =========================
-   ✨ UTILITIES
-========================= */
-
-@layer utilities {
-  .text-foreground { color: var(--foreground); }
-  .text-background { color: var(--background); }
-  .text-muted { color: var(--muted); }
-  .text-primary { color: var(--primary); }
-
-  /* Ensure typography plugin matches global brand color system */
-  .prose,
-  .prose p,
-  .prose li,
-  .prose strong,
-  .prose blockquote,
-  .prose h1,
-  .prose h2,
-  .prose h3,
-  .prose h4,
-  .prose h5,
-  .prose h6 {
+  .btn-ghost {
+    background: transparent;
     color: var(--foreground);
+    border: 1px solid transparent;
   }
 
-  .prose a,
-  .prose a:hover,
-  .prose a:active,
-  .prose a:focus {
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--surface-2);
+  }
+
+  /* Editorial eyebrow label above headings */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: var(--primary);
   }
 
-  .prose blockquote {
-    border-color: var(--primary);
+  .eyebrow::before {
+    content: "";
+    width: 1.5rem;
+    height: 1px;
+    background: var(--primary);
   }
 
-  .bg-background { background-color: var(--background); }
-  .bg-foreground { background-color: var(--foreground); }
-  .bg-primary { background-color: var(--primary); }
-
-  .border-default { border-color: var(--border); }
-
-  .animate-fade-in {
-    animation: fade-in 0.6s ease-out;
+  /* Text link with animated underline */
+  .link-underline {
+    position: relative;
   }
 
-  .scale-in {
-    animation: scale-in 0.4s ease-out;
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.25s ease;
+  }
+
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Cards — restrained */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 4px);
+  }
+
+  .card-hover {
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .card-hover:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 8px 30px -12px rgb(0 0 0 / 0.12);
+    transform: translateY(-2px);
+  }
+
+  .dark .card-hover:hover {
+    box-shadow: 0 8px 30px -12px rgb(0 0 0 / 0.6);
+  }
+
+  /* Section label used in footer/nav columns */
+  .col-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--faint-foreground);
   }
 }
 
-/* =========================
-   ✨ KEYFRAMES
-========================= */
+/* =========================================================
+   REVEAL ANIMATION (IntersectionObserver adds .is-visible)
+   ========================================================= */
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
-@keyframes scale-in {
-  from { transform: scale(0.9); }
-  to   { transform: scale(1); }
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   MOTION SAFETY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

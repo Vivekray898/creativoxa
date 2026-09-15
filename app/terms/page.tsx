@@ -1,142 +1,111 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Container } from "@/components/ui/primitives";
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | The Creativoxa Agreement',
-  description: 'Legal terms and service guidelines for engaging with Creativoxa Digital Agency.',
+  title: "Terms of Service",
+  description:
+    "The terms that govern use of the Creativoxa website and engagement of our digital marketing services.",
 };
 
 export default function TermsPage() {
-  const effectiveDate = new Date().toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
   return (
-    <main className="bg-background min-h-screen pb-24">
-      {/* 1. ARCHITECTURAL HERO */}
-      <header className="pt-32 pb-16 border-b border-default">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <div className="max-w-3xl">
-              <p className="text-primary font-black uppercase tracking-[0.4em] mb-6 text-[10px]">
-                Legal Framework
-              </p>
-              <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-foreground leading-[0.85]">
-                TERMS OF <br /> <span className="text-primary">SERVICE.</span>
-              </h1>
-            </div>
-            <div className="text-right">
-              <p className="text-muted text-[10px] font-black uppercase tracking-widest mb-2">
-                Last Updated
-              </p>
-              <p className="text-foreground font-bold">{effectiveDate}</p>
-            </div>
-          </div>
-        </div>
-      </header>
+    <LegalShell
+      title="Terms of Service"
+      kicker="Legal"
+      intro="These terms govern your use of this website and any services provided by Creativoxa. Specific projects are governed by their own written agreement."
+    >
+      <h2>1. Services</h2>
+      <p>
+        Creativoxa provides digital marketing, advertising management, SEO, social media
+        management, website development and related services. Deliverables, timelines and fees for
+        any engagement are defined in a written proposal or statement of work.
+      </p>
 
-      {/* 2. CONTENT GRID */}
-      <section className="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-12 gap-16">
-        
-        {/* Left Sidebar: Quick Navigation */}
-        <aside className="hidden lg:block lg:col-span-3 sticky top-32 h-fit">
-          <div className="space-y-4 border-l-2 border-primary pl-6">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted mb-6">
-              Summary
-            </p>
-            <p className="text-sm leading-relaxed text-foreground/70 italic">
-              "By engaging our studio, you agree to a partnership built on transparency, 
-              mutual respect, and clear intellectual property boundaries."
-            </p>
-          </div>
-        </aside>
+      <h2>2. Client responsibilities</h2>
+      <ul>
+        <li>Timely provision of brand assets, content and platform access.</li>
+        <li>Prompt feedback within agreed review windows to keep projects on schedule.</li>
+        <li>Accurate business information for listings, profiles and campaigns.</li>
+      </ul>
 
-        {/* Main Legal Content */}
-        <div className="lg:col-span-9">
-          <div className="prose dark:prose-invert max-w-none 
-            prose-headings:text-foreground prose-headings:font-black prose-headings:tracking-tighter
-            prose-h2:text-3xl prose-h2:border-b prose-h2:border-default prose-h2:pb-4 prose-h2:mt-16
-            prose-p:text-foreground/80 prose-p:leading-relaxed prose-p:text-lg
-            prose-li:text-foreground/80 prose-strong:text-foreground prose-strong:font-black
-            prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
-            
-            <p>
-              Welcome to Creativoxa. These Terms and Conditions govern your use of our website and 
-              the digital services provided by our agency. By accessing our platform or hiring 
-              our studio, you agree to be bound by these terms.
-            </p>
+      <h2>3. Fees & payment</h2>
+      <p>
+        <strong>Deposits:</strong> Projects generally begin after an agreed upfront payment.
+        <br />
+        <strong>Ongoing services:</strong> Retainers are billed monthly in advance.
+        <br />
+        <strong>Overdue accounts:</strong> We may pause campaigns or services if invoices remain
+        unpaid past the agreed grace period.
+      </p>
 
-            <h2>01. Scope of Expertise</h2>
-            <p>
-              Creativoxa provides architectural-grade digital marketing, web design, development, 
-              and videography services. Specific deliverables, timelines, and technical 
-              specifications will be outlined in your bespoke Statement of Work (SOW).
-            </p>
+      <h2>4. Intellectual property</h2>
+      <p>
+        Upon final payment, you own the final deliverables created for your project (website,
+        creative, copy). We retain ownership of our internal tooling, templates and processes.
+        Unless otherwise agreed, we may reference your project in our portfolio.
+      </p>
 
-            <h2>02. Client Obligations</h2>
-            <p>
-              For us to build your digital future, we require timely access to:
-            </p>
-            <ul>
-              <li>Brand assets, logos, and high-resolution imagery.</li>
-              <li>Required credentials for hosting and social platforms.</li>
-              <li>Prompt feedback within 48-72 hours to maintain project velocity.</li>
-            </ul>
+      <h2>5. Performance disclaimer</h2>
+      <p>
+        We follow established, ethical practices — but we do not guarantee specific rankings,
+        lead volumes or revenue outcomes. Search and advertising platforms control their own
+        systems, and results vary by market, budget and execution. We commit to honest reporting
+        of what happened and why.
+      </p>
 
-            <h2>03. Financial Architecture</h2>
-            <p>
-              <strong>Deposits:</strong> All projects require a non-refundable upfront 
-              commitment fee (typically 50%) before the discovery phase begins.
-            </p>
-            <p>
-              <strong>Late Fees:</strong> We reserve the right to pause active ad campaigns 
-              or suspend website hosting if invoices remain unpaid past the 7-day grace period.
-            </p>
+      <h2>6. Termination</h2>
+      <p>
+        Either party may end an ongoing engagement with 30 days&apos; written notice. Work
+        completed and expenses incurred up to termination remain payable.
+      </p>
 
-            <h2>04. Intellectual Property</h2>
-            <p>
-              Upon final payment, the Client holds full ownership of the final "End Product." 
-              However, Creativoxa retains ownership of all "Studio Assets" including raw 
-              source code, unedited video footage, and rejected design concepts.
-            </p>
-            <p>
-              Unless a specific NDA is signed, we reserve the right to showcase your project 
-              within our <strong>Selected Works</strong> gallery.
-            </p>
+      <h2>7. Governing law</h2>
+      <p>
+        These terms are governed by the laws of India. Disputes fall under the jurisdiction of the
+        courts of Siliguri, West Bengal.
+      </p>
 
-            <h2>05. Performance Disclaimer</h2>
-            <p>
-              While we use data-driven strategies to dominate search results, search engines 
-              frequently update their algorithms. Creativoxa does not guarantee specific 
-              monetary ROI or #1 rankings, as these are subject to third-party platforms.
-            </p>
+      <div className="contact-box">
+        <h3>Legal enquiries</h3>
+        <p>
+          Creativoxa<br />
+          Naresh More, East Chayan Para, Siliguri, West Bengal 734006<br />
+          Email: <Link href="mailto:contact@creativoxa.in">contact@creativoxa.in</Link><br />
+          Phone: +91 76795 87581
+        </p>
+      </div>
+    </LegalShell>
+  );
+}
 
-            <h2>06. Termination of Partnership</h2>
-            <p>
-              Either party may terminate the agreement with 30 days' written notice. 
-              Creativoxa reserves the right to terminate immediately in cases of 
-              unprofessional conduct or breach of confidentiality.
-            </p>
-
-            <h2>07. Contact & Jurisdiction</h2>
-            <p>
-              These terms are governed by the laws of India. Any disputes shall be settled 
-              within the exclusive jurisdiction of the courts in <strong>Siliguri, West Bengal.</strong>
-            </p>
-
-            <div className="mt-20 p-8 rounded-3xl bg-background dark:bg-slate-900 border border-default text-foreground dark:text-foreground">
-              <h3 className="mt-0 text-foreground dark:text-foreground">Legal Inquiries</h3>
-              <p className="text-sm mb-0 text-foreground dark:text-foreground">
-                Creativoxa Digital Agency<br />
-                Naresh More, East Chayan Para, Siliguri<br />
-                Email: <a href="mailto:contact@creativoxa.in" className="text-primary">contact@creativoxa.in</a><br />
-                Phone: +91 76795 87581
-              </p>
-            </div>
-          </div>
-        </div>
+function LegalShell({
+  title,
+  kicker,
+  intro,
+  children,
+}: {
+  title: string;
+  kicker: string;
+  intro: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <section className="border-b border-line">
+        <Container className="py-14 lg:py-20">
+          <p className="eyebrow mb-4">{kicker}</p>
+          <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">{title}</h1>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">{intro}</p>
+        </Container>
       </section>
-    </main>
+      <section className="py-12 lg:py-16">
+        <Container>
+          <div className="prose prose-neutral mx-auto max-w-3xl prose-headings:font-semibold prose-headings:tracking-tight prose-p:leading-relaxed prose-a:text-primary">
+            {children}
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }

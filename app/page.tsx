@@ -1,32 +1,46 @@
-import type { Metadata } from 'next';
-import Hero from '@/components/home/Hero';
-import TrustLogos from '@/components/home/TrustLogos';
-import Services from '@/components/home/Services';
-import WhyChooseUs from '@/components/home/WhyChooseUs';
-import Results from '@/components/home/Results';
-import Process from '@/components/home/Process';
-import Testimonials from '@/components/home/Testimonials';
-import FAQ from '@/components/home/FAQ';
-import FinalCTA from '@/components/home/FinalCTA';
+import type { Metadata } from "next";
+import Hero from "@/components/sections/Hero";
+import TrustStrip from "@/components/sections/TrustStrip";
+import WhatWeDo from "@/components/sections/WhatWeDo";
+import Services from "@/components/sections/Services";
+import Outcomes from "@/components/sections/Outcomes";
+import Work from "@/components/sections/Work";
+import Process from "@/components/sections/Process";
+import WhyCreativoxa from "@/components/sections/WhyCreativoxa";
+import Ecosystem from "@/components/sections/Ecosystem";
+import Industries from "@/components/sections/Industries";
+import InsightsPreview from "@/components/sections/InsightsPreview";
+import AboutTeaser from "@/components/sections/AboutTeaser";
+import FinalCTA from "@/components/sections/FinalCTA";
+import Contact from "@/components/sections/Contact";
+import { site } from "@/lib/site";
+
+// Regenerate the homepage hourly so the insights preview picks up new posts.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Best Digital Marketing & SEO Agency in Siliguri | Creativoxa',
-  description: 'Creativoxa is the #1 digital marketing and SEO agency in Siliguri. We offer expert SEO, web design, and performance marketing to grow your business.',
-  alternates: { canonical: 'https://creativoxa.in/' },
+  title: `${site.name} — Digital Marketing & Growth Partner`,
+  description: site.description,
+  alternates: { canonical: "/" },
 };
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col w-full">
+    <>
       <Hero />
-      <TrustLogos />
+      <TrustStrip />
+      <WhatWeDo />
       <Services />
-      <WhyChooseUs /> {/* New Section */}
-      <Results />
+      <Outcomes />
+      <Work />
       <Process />
-      <Testimonials />
-      <FAQ />
-      <FinalCTA href="/All-Services" label="Explore Services" subtext="Interested? Learn how we can build this for you." />
-    </div>
+      <WhyCreativoxa />
+      <Ecosystem />
+      <Industries />
+      <InsightsPreview />
+      <AboutTeaser />
+      <FinalCTA />
+      <Contact />
+    </>
   );
 }

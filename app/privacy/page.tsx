@@ -1,149 +1,112 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Container } from "@/components/ui/primitives";
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Data Security & Transparency | Creativoxa',
-  description: 'Understand how Creativoxa collects, protects, and manages your data in accordance with global digital standards.',
+  title: "Privacy Policy",
+  description:
+    "How Creativoxa collects, uses and protects your information when you use our website or engage our services.",
 };
 
 export default function PrivacyPage() {
-  const effectiveDate = new Date().toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
   return (
-    <main className="bg-background min-h-screen pb-24">
-      {/* 1. ARCHITECTURAL HERO */}
-      <header className="pt-32 pb-16 border-b border-default">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <div className="max-w-3xl">
-              <p className="text-primary font-black uppercase tracking-[0.4em] mb-6 text-[10px]">
-                Security Framework
-              </p>
-              <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-foreground leading-[0.85]">
-                DATA <br /> <span className="text-primary">PRIVACY.</span>
-              </h1>
-            </div>
-            <div className="text-right">
-              <p className="text-muted text-[10px] font-black uppercase tracking-widest mb-2">
-                Last Revision
-              </p>
-              <p className="text-foreground font-bold">{effectiveDate}</p>
-            </div>
-          </div>
-        </div>
-      </header>
+    <LegalShell
+      title="Privacy Policy"
+      kicker="Legal"
+      intro="This policy explains what information Creativoxa collects through this website, how we use it, and the choices you have."
+    >
+      <h2>1. Information we collect</h2>
+      <p>
+        When you submit an enquiry or otherwise contact us, we collect the details you provide:
+        your name, business name, email address, phone number, website, and the content of your
+        message. We also collect standard technical information (such as browser type and pages
+        visited) through privacy-respecting analytics.
+      </p>
 
-      {/* 2. CONTENT GRID */}
-      <section className="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-12 gap-16">
-        
-        {/* Left Sidebar: Sticky Navigation */}
-        <aside className="hidden lg:block lg:col-span-3 sticky top-32 h-fit">
-          <div className="space-y-4 border-l-2 border-primary pl-6">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted mb-6">
-              Protocol Summary
-            </p>
-            <p className="text-sm leading-relaxed text-foreground/70 italic">
-              "We prioritize your digital sovereignty. Data is treated as a high-security asset, 
-              managed with encryption and ethical transparency."
-            </p>
-          </div>
-        </aside>
+      <h2>2. How we use it</h2>
+      <ul>
+        <li>To respond to your enquiry and provide the services you request.</li>
+        <li>To communicate about ongoing work, proposals and support.</li>
+        <li>To improve this website and understand which content is useful.</li>
+      </ul>
+      <p><strong>We do not sell your data.</strong></p>
 
-        {/* Main Privacy Content */}
-        <div className="lg:col-span-9">
-          <div className="prose dark:prose-invert max-w-none 
-            prose-headings:text-foreground prose-headings:font-black prose-headings:tracking-tighter
-            prose-h2:text-3xl prose-h2:border-b prose-h2:border-default prose-h2:pb-4 prose-h2:mt-16
-            prose-p:text-foreground/80 prose-p:leading-relaxed prose-p:text-lg
-            prose-li:text-foreground/80 prose-strong:text-foreground prose-strong:font-black
-            prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
-            
-            <p>
-              At Creativoxa, we recognize that privacy is the foundation of digital trust. 
-              This policy details our protocols for collecting, safeguarding, and managing 
-              the information you entrust to our studio.
-            </p>
+      <h2>3. Sharing</h2>
+      <p>
+        Information is shared only with services necessary to run our business: hosting
+        infrastructure, our database provider (Supabase), email delivery (Resend), and advertising
+        platforms where you are a client. Each processes data under its own terms.
+      </p>
 
-            <h2>01. Data Architecture (Collection)</h2>
-            <p>
-              We collect specific data points required to engineer your digital solutions:
-            </p>
-            <ul>
-              <li><strong>Identifiable Assets:</strong> Names, email addresses, and phone numbers provided via inquiry.</li>
-              <li><strong>Business Metadata:</strong> Company details, billing addresses, and project-specific credentials.</li>
-              <li><strong>Technical Logs:</strong> IP addresses, browser versions, and user behavior analytics to optimize our site performance.</li>
-            </ul>
+      <h2>4. Cookies & tracking</h2>
+      <p>
+        We use cookies and similar technologies for analytics and advertising measurement
+        (including Google Ads conversion tracking, the Meta Pixel and Microsoft Clarity). You can
+        control cookies through your browser settings; parts of the site may function differently
+        without them.
+      </p>
 
-            <h2>02. Strategic Usage</h2>
-            <p>
-              Collected data is utilized strictly for the advancement of your project:
-            </p>
-            <ul>
-              <li><strong>Execution:</strong> Building websites, managing ad campaigns, and delivering media.</li>
-              <li><strong>Communication:</strong> Project milestones, strategy updates, and direct support.</li>
-              <li><strong>Optimization:</strong> Analyzing traffic patterns to improve the Creativoxa user experience.</li>
-            </ul>
+      <h2>5. Security</h2>
+      <p>
+        Data transmitted through this site is protected with SSL encryption (HTTPS). Access to
+        stored enquiries is limited to the Creativoxa team and secured by our infrastructure
+        providers.
+      </p>
 
-            <h2>03. Tracking & Cookies</h2>
-            <p>
-              We utilize "cookies" as diagnostic tools. These small data files allow us to remember 
-              your preferences and track engagement patterns. You may opt-out of cookie tracking 
-              via your browser settings, though some architectural features of the site may 
-              be limited.
-            </p>
+      <h2>6. Your rights</h2>
+      <p>You may request at any time:</p>
+      <ul>
+        <li>Access to the information we hold about you.</li>
+        <li>Correction of inaccurate information.</li>
+        <li>Deletion of your records, subject to legal or billing retention needs.</li>
+      </ul>
 
-            <h2>04. Information Distribution</h2>
-            <p>
-              <strong>We do not sell data.</strong> Information is only shared with trusted 
-              partners necessary for project completion, such as:
-            </p>
-            <ul>
-              <li>Cloud hosting infrastructure (Vercel, AWS).</li>
-              <li>Payment gateways (Razorpay, Stripe).</li>
-              <li>Official ad networks (Google Ads, Meta).</li>
-            </ul>
+      <h2>7. Changes to this policy</h2>
+      <p>
+        We may update this policy as our practices or regulations evolve. Significant changes will
+        be reflected on this page.
+      </p>
 
-            <h2>05. Security Protocols</h2>
-            <p>
-              All data transmitted through our platform is secured via SSL encryption (HTTPS). 
-              While we implement high-level security barriers, no digital transmission is 
-              indestructible. We treat every data point with the highest degree of studio 
-              confidentiality.
-            </p>
+      <div className="contact-box">
+        <h3>Contact</h3>
+        <p>
+          Creativoxa<br />
+          Naresh More, East Chayan Para, Siliguri, West Bengal 734006<br />
+          Email: <Link href="mailto:contact@creativoxa.in">contact@creativoxa.in</Link><br />
+          Phone: +91 76795 87581
+        </p>
+      </div>
+    </LegalShell>
+  );
+}
 
-            <h2>06. Your Digital Rights</h2>
-            <p>
-              You maintain full sovereignty over your data. At any point, you may request:
-            </p>
-            <ul>
-              <li>Full access to your stored data points.</li>
-              <li>Correction of any inaccurate information.</li>
-              <li>Complete deletion of your record within our database (subject to legal billing requirements).</li>
-            </ul>
-
-            <h2>07. Policy Updates</h2>
-            <p>
-              Creativoxa reserves the right to modify this Security Framework as digital 
-              regulations evolve. Continued engagement with our studio indicates acceptance 
-              of the most current protocols.
-            </p>
-
-            <div className="mt-20 p-8 rounded-3xl bg-background dark:bg-slate-900 border border-default text-foreground dark:text-foreground">
-              <h3 className="mt-0 text-foreground dark:text-foreground">Data Protection Officer</h3>
-              <p className="text-sm mb-0 text-foreground dark:text-foreground">
-                Creativoxa Digital Agency<br />
-                Naresh More, Siliguri, West Bengal<br />
-                Inquiries: <Link href="mailto:contact@creativoxa.in" className="text-primary">contact@creativoxa.in</Link><br />
-                Direct: +91 76795 87581
-              </p>
-            </div>
-          </div>
-        </div>
+function LegalShell({
+  title,
+  kicker,
+  intro,
+  children,
+}: {
+  title: string;
+  kicker: string;
+  intro: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <section className="border-b border-line">
+        <Container className="py-14 lg:py-20">
+          <p className="eyebrow mb-4">{kicker}</p>
+          <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">{title}</h1>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">{intro}</p>
+        </Container>
       </section>
-    </main>
+      <section className="py-12 lg:py-16">
+        <Container>
+          <div className="prose prose-neutral mx-auto max-w-3xl prose-headings:font-semibold prose-headings:tracking-tight prose-p:leading-relaxed prose-a:text-primary">
+            {children}
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }

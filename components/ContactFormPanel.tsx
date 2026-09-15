@@ -1,152 +1,147 @@
-'use client';
-import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+"use client";
+
+import { useState } from "react";
+import { supabase } from "@/lib/supabase";
+import Icon from "@/components/ui/Icon";
 
 export default function ContactFormPanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setHasError(false);
 
     const formData = new FormData(e.currentTarget);
     const payload = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      message: formData.get('message'),
-      form_source: 'Floating Sidebar'
+      name: String(formData.get("name") || ""),
+      email: String(formData.get("email") || ""),
+      phone: String(formData.get("phone") || ""),
+      message: String(formData.get("message") || ""),
+      form_source: "Floating Panel",
     };
 
-    // 1. Save to Database (Supabase)
-    const { error: dbError } = await supabase
-      .from('enquiries')
-      .insert([payload]);
+    const { error: dbError } = await supabase.from("enquiries").insert([payload]);
 
     if (!dbError) {
-      // 2. Success! Show the "Thank You" message immediately
       setIsSubmitted(true);
       setIsSubmitting(false);
 
-      // 3. Fire Email Notification (Non-blocking)
-      // We don't "await" this so the user doesn't wait for the SMTP server
-      fetch('/api/send-enquiry', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      // Fire-and-forget email notification
+      fetch("/api/send-enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-      }).catch(err => console.error("Email notification error:", err));
+      }).catch(() => {});
 
-      // 4. Reset form and close panel after delay
       setTimeout(() => {
         setIsSubmitted(false);
         setIsOpen(false);
-      }, 3000);
+      }, 4000);
     } else {
       setIsSubmitting(false);
-      alert("Error sending enquiry. Please try again.");
-      console.error("Supabase Error:", dbError);
+      setHasError(true);
+      console.error("Supabase error:", dbError);
     }
   };
 
   return (
-    <div className="fixed right-0 top-1/2 -translate-y-1/2 z-[110] flex items-center pointer-events-none md:z-[90]">
-      {/* Tab Button */}
+    <div className="fixed right-0 top-1/2 z-40 hidden -translate-y-1/2 items-center md:flex">
+      {/* Tab trigger */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label={isOpen ? 'Close contact form' : 'Open contact form'}
+        type="button"
+        onClick={() => setIsOpen((v) => !v)}
         aria-expanded={isOpen}
-        className={`
-          pointer-events-auto
-          btn-primary
-          text-sm font-semibold
-          px-3 py-6
-          rounded-l-2xl rounded-r-none
-          shadow-xl hover:shadow-2xl
-          transition-all duration-300
-          flex items-center gap-2
-          active:scale-95
-          [writing-mode:vertical-lr]
-          tracking-wide
-        `}
+        aria-label={isOpen ? "Close enquiry panel" : "Open enquiry panel"}
+        className="pointer-events-auto rounded-l-lg border border-line border-r-0 bg-surface px-2 py-5 text-xs font-semibold tracking-wide text-foreground shadow-md transition-colors hover:bg-surface-2 [writing-mode:vertical-rl]"
       >
-        {isOpen ? 'Close' : 'Get in Touch'}
+        {isOpen ? "Close" : "Enquire"}
       </button>
 
-      {/* Form panel */}
+      {/* Panel */}
       <div
-        className={`
-          pointer-events-auto
-          bg-background text-foreground shadow-2xl rounded-l-2xl
-          border border-default
-          transition-all duration-500 ease-out
-          overflow-hidden
-          ${isOpen ? 'w-80 sm:w-96 opacity-100 translate-x-0' : 'w-0 opacity-0 translate-x-8'}
-        `}
+        className={`pointer-events-auto overflow-hidden border-y border-l border-line bg-surface shadow-2xl transition-all duration-300 ${
+          isOpen ? "w-[22rem] opacity-100" : "w-0 opacity-0"
+        }`}
       >
-        <div className="w-full max-w-md p-6 sm:p-7 flex-shrink-0">
-          <h3 className="text-2xl font-bold text-foreground mb-2">
-            Request a Quote
+        <div className="w-[22rem] p-6">
+          <h3 className="text-lg font-semibold tracking-tight text-foreground">
+            Send a quick enquiry
           </h3>
-          <p className="text-sm text-muted mb-7">
-            We usually reply within 24 hours
+          <p className="mt-1 text-sm text-muted">
+            Tell us what you need. We usually reply within one business day.
           </p>
 
-          {!isSubmitted ? (
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <input
-                type="text"
-                name="name"
-                placeholder="Full Name *"
-                required
-                className="w-full px-4 py-3 rounded-xl border border-default focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-foreground bg-background"
-              />
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number *"
-                required
-                className="w-full px-4 py-3 rounded-xl border border-default focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-foreground bg-background"
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address *"
-                required
-                className="w-full px-4 py-3 rounded-xl border border-default focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-foreground bg-background"
-              />
-              <textarea
-                name="message"
-                placeholder="Tell us about your project..."
-                rows={4}
-                className="w-full px-4 py-3 rounded-xl border border-default focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-foreground resize-none bg-background"
-              />
+          {isSubmitted ? (
+            <div className="py-14 text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft text-primary">
+                <Icon name="check" className="h-6 w-6" />
+              </div>
+              <h4 className="mt-4 text-base font-semibold text-foreground">Enquiry sent</h4>
+              <p className="mt-1 text-sm text-muted">We&apos;ll get back to you shortly.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="mt-5 space-y-3.5">
+              <div>
+                <label htmlFor="fp-name" className="sr-only">Name</label>
+                <input
+                  id="fp-name"
+                  name="name"
+                  type="text"
+                  required
+                  placeholder="Your name *"
+                  className="w-full rounded-lg border border-line bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-faint focus:border-primary"
+                />
+              </div>
+              <div>
+                <label htmlFor="fp-email" className="sr-only">Email</label>
+                <input
+                  id="fp-email"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="Email *"
+                  className="w-full rounded-lg border border-line bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-faint focus:border-primary"
+                />
+              </div>
+              <div>
+                <label htmlFor="fp-phone" className="sr-only">Phone</label>
+                <input
+                  id="fp-phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="Phone (optional)"
+                  className="w-full rounded-lg border border-line bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-faint focus:border-primary"
+                />
+              </div>
+              <div>
+                <label htmlFor="fp-message" className="sr-only">Message</label>
+                <textarea
+                  id="fp-message"
+                  name="message"
+                  rows={3}
+                  placeholder="What do you need help with?"
+                  className="w-full resize-none rounded-lg border border-line bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-faint focus:border-primary"
+                />
+              </div>
+
+              {hasError && (
+                <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-600 dark:text-red-400">
+                  Something went wrong. Please try again or email us directly.
+                </p>
+              )}
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full btn-primary font-semibold py-3.5 rounded-xl shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 mt-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                className="btn btn-primary w-full"
               >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {isSubmitting ? "Sending…" : "Send Enquiry"}
               </button>
             </form>
-          ) : (
-            <div className="py-16 text-center animate-in fade-in zoom-in duration-300">
-              <div className="text-primary text-6xl mb-5">
-                <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h4 className="text-xl font-bold text-foreground mb-2">
-                Message Sent!
-              </h4>
-              <p className="text-muted">
-                We&apos;ll get back to you soon.
-              </p>
-            </div>
           )}
         </div>
       </div>
