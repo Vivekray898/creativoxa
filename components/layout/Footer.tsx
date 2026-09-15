@@ -19,11 +19,10 @@ const companyLinks = [
 ];
 
 const connectLinks = [
-  { name: site.email, href: `mailto:${site.email}` },
-  { name: site.phone, href: site.phoneHref },
-  { name: "Instagram", href: site.socials.instagram },
-  { name: "Facebook", href: site.socials.facebook },
-  { name: "LinkedIn", href: site.socials.x },
+  { name: site.socials.instagram.replace(/^https?:\/\//, ""), href: site.socials.instagram },
+  { name: site.socials.facebook.replace(/^https?:\/\//, ""), href: site.socials.facebook },
+  { name: "X (Twitter)", href: site.socials.x },
+  { name: "Pinterest", href: site.socials.pinterest },
 ];
 
 const legalLinks = [
@@ -79,24 +78,42 @@ export default function Footer() {
             </ul>
           </nav>
 
-          {/* Connect */}
-          <nav className="lg:col-span-2" aria-label="Connect">
-            <p className="col-label mb-4">Connect</p>
+          {/* Contact */}
+          <div className="lg:col-span-2">
+            <p className="col-label mb-4">Contact</p>
+            <ul className="space-y-2.5">
+              <li>
+                <a href={`mailto:${site.email}`} className="text-sm text-muted transition-colors hover:text-foreground">
+                  {site.email}
+                </a>
+              </li>
+              <li>
+                <a href={site.phoneHref} className="text-sm text-muted transition-colors hover:text-foreground">
+                  {site.phone}
+                </a>
+              </li>
+              <li>
+                <Link href="/contact" className="text-sm text-muted transition-colors hover:text-foreground">
+                  Enquiry form
+                </Link>
+              </li>
+            </ul>
+            <p className="col-label mb-4 mt-8">Social</p>
             <ul className="space-y-2.5">
               {connectLinks.map((l) => (
-                <li key={l.name}>
+                <li key={l.href}>
                   <a
                     href={l.href}
-                    target={l.href.startsWith("http") ? "_blank" : undefined}
-                    rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sm text-muted transition-colors hover:text-foreground"
                   >
-                    {l.name}
+                    {l.name} ↗
                   </a>
                 </li>
               ))}
             </ul>
-          </nav>
+          </div>
 
           {/* Legal */}
           <nav className="lg:col-span-2" aria-label="Legal">
@@ -111,6 +128,20 @@ export default function Footer() {
               ))}
             </ul>
           </nav>
+        </div>
+
+        {/* Final CTA strip */}
+        <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-line pt-8 sm:flex-row sm:items-center">
+          <p className="max-w-md text-sm leading-relaxed text-muted">
+            Have a project in mind?{" "}
+            <Link href="/contact" className="font-semibold text-primary hover:text-primary-hover">
+              Tell us what you&apos;re working on
+            </Link>
+            .
+          </p>
+          <Link href="/contact" className="btn btn-primary h-10 shrink-0 px-5 text-sm">
+            Start a Project
+          </Link>
         </div>
 
         <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between">

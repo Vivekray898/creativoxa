@@ -11,7 +11,7 @@ import ContactFormPanel from "@/components/ContactFormPanel";
 import TrackingScripts from "@/components/TrackingScripts";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import { site } from "@/lib/site";
-import { organizationSchema } from "@/lib/seo";
+import { JsonLd, organizationSchema, websiteSchema } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -63,10 +63,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
         <TrackingScripts />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
+        <JsonLd data={organizationSchema} />
+        <JsonLd data={websiteSchema} />
         <ThemeProviderWrapper>
           <a
             href="#main-content"

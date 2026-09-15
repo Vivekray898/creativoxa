@@ -8,7 +8,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contact — Start a Project",
   description:
-    "Tell Creativoxa what you're working on. We'll get back to you with practical next steps — usually within one business day.",
+    "Tell Creativoxa what you're working on. We'll review your enquiry and come back with practical next steps.",
   alternates: { canonical: "/contact" },
 };
 
@@ -45,7 +45,7 @@ export default function ContactPage() {
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
               Tell us what you&apos;re working on and we&apos;ll get back to you with the next
-              steps. Every enquiry is read by a person — usually within one business day.
+              steps. Every enquiry is read by a person, not a bot.
             </p>
           </Reveal>
         </Container>

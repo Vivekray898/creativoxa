@@ -116,11 +116,31 @@ export default function EnquiryForm({ formSource = "Website" }: { formSource?: s
           <Icon name="check" className="h-7 w-7" />
         </div>
         <h3 className="mt-5 text-xl font-semibold tracking-tight text-foreground">
-          Enquiry received
+          Thanks — your enquiry has been received.
         </h3>
         <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted">
-          Thank you — we&apos;ve got your details and will get back to you with next steps,
-          usually within one business day.
+          We&apos;ll review the details and get back to you. Here&apos;s what happens next:
+        </p>
+        <ol className="mt-6 max-w-sm space-y-3 text-left">
+          {[
+            "We review your requirements",
+            "We discuss your project and goals",
+            "We recommend the right approach",
+            "Work begins",
+          ].map((step, i) => (
+            <li key={step} className="flex items-center gap-3 text-sm text-muted">
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary-soft text-[10px] font-semibold text-primary">
+                {i + 1}
+              </span>
+              {step}
+            </li>
+          ))}
+        </ol>
+        <p className="mt-6 max-w-sm text-xs leading-relaxed text-faint">
+          Prefer email? Write to us at{" "}
+          <a href="mailto:contact@creativoxa.in" className="font-medium text-primary">
+            contact@creativoxa.in
+          </a>
         </p>
       </div>
     );
@@ -150,7 +170,9 @@ export default function EnquiryForm({ formSource = "Website" }: { formSource?: s
           <input id="ef-phone" name="phone" type="tel" autoComplete="tel" placeholder="+91 …" className={inputClass} />
         </div>
         <div>
-          <label htmlFor="ef-website" className={labelClass}>Website (optional)</label>
+          <label htmlFor="ef-website" className={labelClass}>
+            Website <span className="normal-case text-faint/70">(optional)</span>
+          </label>
           <input id="ef-website" name="website" type="url" placeholder="yourwebsite.com" className={inputClass} />
         </div>
         <div>
@@ -163,7 +185,9 @@ export default function EnquiryForm({ formSource = "Website" }: { formSource?: s
           </select>
         </div>
         <div className="sm:col-span-2">
-          <label htmlFor="ef-budget" className={labelClass}>Approximate budget (optional)</label>
+          <label htmlFor="ef-budget" className={labelClass}>
+            Approximate budget <span className="normal-case text-faint/70">(optional — helps us understand scope)</span>
+          </label>
           <select id="ef-budget" name="budget" defaultValue="" className={inputClass}>
             <option value="" disabled>Select a range</option>
             {budgetOptions.map((b) => (
@@ -177,14 +201,14 @@ export default function EnquiryForm({ formSource = "Website" }: { formSource?: s
             id="ef-message"
             name="message"
             rows={4}
-            placeholder="Tell us about your business and what you're trying to achieve…"
+            placeholder="Tell us what you're trying to achieve…"
             className={`${inputClass} resize-y`}
           />
         </div>
       </div>
 
-      {/* Honeypot — hidden from real users */}
-      <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+      {/* Honeypot — hidden from real users and assistive tech */}
+      <div className="sr-only" aria-hidden="true">
         <label>
           Company website
           <input type="text" name="company_website_hp" tabIndex={-1} autoComplete="off" />

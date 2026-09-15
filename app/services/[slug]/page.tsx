@@ -6,7 +6,7 @@ import Reveal from "@/components/ui/Reveal";
 import Icon from "@/components/ui/Icon";
 import FinalCTA from "@/components/sections/FinalCTA";
 import { getServicePage, servicePages } from "@/lib/data/services";
-import { faqSchema } from "@/lib/seo";
+import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { whyPoints } from "@/lib/data/content";
 
@@ -49,9 +49,14 @@ export default async function ServicePage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(service.faqs)) }}
+      <JsonLd data={faqSchema(service.faqs)} />
+      <JsonLd data={serviceSchema(service)} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Services", path: "/services" },
+          { name: service.shortTitle, path: `/services/${service.slug}` },
+        ])}
       />
 
       {/* Hero */}

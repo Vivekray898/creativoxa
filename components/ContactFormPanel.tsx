@@ -1,14 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Icon from "@/components/ui/Icon";
 
 export default function ContactFormPanel() {
+  const [isDesktop, setIsDesktop] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasError, setHasError] = useState(false);
+
+  // Only mount the panel on md+ screens so it can never extend
+  // the page's scroll width on mobile devices. The initial value is set
+  // inside the change handler (fired via requestAnimationFrame) rather than
+  // synchronously in the effect body.
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+
+    const handler = (e: MediaQueryListEvent) => {
+      setIsDesktop(e.matches);
+      // Close the panel if we drop below md while it's open
+      if (!e.matches) setIsOpen(false);
+    };
+
+    mq.addEventListener("change", handler);
+    const raf = requestAnimationFrame(() => handler({ matches: mq.matches } as MediaQueryListEvent));
+
+    return () => {
+      cancelAnimationFrame(raf);
+      mq.removeEventListener("change", handler);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,7 +47,9 @@ export default function ContactFormPanel() {
       form_source: "Floating Panel",
     };
 
-    const { error: dbError } = await supabase.from("enquiries").insert([payload]);
+    const { error: dbError } = await supabase
+      .from("enquiries")
+      .insert([payload]);
 
     if (!dbError) {
       setIsSubmitted(true);
@@ -48,8 +73,10 @@ export default function ContactFormPanel() {
     }
   };
 
+  if (!isDesktop) return null;
+
   return (
-    <div className="fixed right-0 top-1/2 z-40 hidden -translate-y-1/2 items-center md:flex">
+    <div className="fixed right-0 top-1/2 z-40 flex -translate-y-1/2 items-center overflow-hidden">
       {/* Tab trigger */}
       <button
         type="button"
@@ -64,7 +91,7 @@ export default function ContactFormPanel() {
       {/* Panel */}
       <div
         className={`pointer-events-auto overflow-hidden border-y border-l border-line bg-surface shadow-2xl transition-all duration-300 ${
-          isOpen ? "w-[22rem] opacity-100" : "w-0 opacity-0"
+          isOpen ? "w-[22rem] opacity-100" : "hidden w-0 opacity-0"
         }`}
       >
         <div className="w-[22rem] p-6">
@@ -72,7 +99,7 @@ export default function ContactFormPanel() {
             Send a quick enquiry
           </h3>
           <p className="mt-1 text-sm text-muted">
-            Tell us what you need. We usually reply within one business day.
+            Tell us what you need. Your enquiry goes straight to our inbox.
           </p>
 
           {isSubmitted ? (
@@ -80,13 +107,19 @@ export default function ContactFormPanel() {
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft text-primary">
                 <Icon name="check" className="h-6 w-6" />
               </div>
-              <h4 className="mt-4 text-base font-semibold text-foreground">Enquiry sent</h4>
-              <p className="mt-1 text-sm text-muted">We&apos;ll get back to you shortly.</p>
+              <h4 className="mt-4 text-base font-semibold text-foreground">
+                Thanks — your enquiry has been received.
+              </h4>
+              <p className="mt-1 text-sm text-muted">
+                We&apos;ll review the details and get back to you.
+              </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="mt-5 space-y-3.5">
               <div>
-                <label htmlFor="fp-name" className="sr-only">Name</label>
+                <label htmlFor="fp-name" className="sr-only">
+                  Name
+                </label>
                 <input
                   id="fp-name"
                   name="name"
@@ -97,7 +130,9 @@ export default function ContactFormPanel() {
                 />
               </div>
               <div>
-                <label htmlFor="fp-email" className="sr-only">Email</label>
+                <label htmlFor="fp-email" className="sr-only">
+                  Email
+                </label>
                 <input
                   id="fp-email"
                   name="email"
@@ -108,7 +143,9 @@ export default function ContactFormPanel() {
                 />
               </div>
               <div>
-                <label htmlFor="fp-phone" className="sr-only">Phone</label>
+                <label htmlFor="fp-phone" className="sr-only">
+                  Phone
+                </label>
                 <input
                   id="fp-phone"
                   name="phone"
@@ -118,7 +155,9 @@ export default function ContactFormPanel() {
                 />
               </div>
               <div>
-                <label htmlFor="fp-message" className="sr-only">Message</label>
+                <label htmlFor="fp-message" className="sr-only">
+                  Message
+                </label>
                 <textarea
                   id="fp-message"
                   name="message"

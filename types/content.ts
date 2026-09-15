@@ -1,15 +1,11 @@
 // Content types shaped so they can later be migrated to a CMS
 // (Sanity / Payload / Supabase) without restructuring pages.
 
-export interface ServiceItem {
-  name: string;
-}
-
 export interface ServiceCategory {
   id: string;
   label: string;
   description: string;
-  services: ServiceItem[];
+  services: { name: string }[];
 }
 
 export interface ServicePageData {

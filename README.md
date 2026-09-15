@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Creativoxa — Agency Website
 
-## Getting Started
+Production website for [Creativoxa](https://www.creativoxa.com), a digital marketing and
+growth partner based in Siliguri, India. The site covers the agency's services
+(advertising, SEO, social media, websites, local marketing), selected work, insights,
+and an enquiry pipeline.
 
-First, run the development server:
+## Tech stack
+
+- **Next.js 16** (App Router, Turbopack) + **React 19** + **TypeScript**
+- **Tailwind CSS 4** with a token-based design system in `app/globals.css`
+- **Supabase** — blog/insights posts, tools registry, enquiry storage
+- **Resend** — enquiry email notifications
+- **next-themes** — light/dark mode
+- Deployed on **Vercel** (Analytics + Speed Insights included)
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # production build
+npm run lint       # eslint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Set these in `.env.local` (and in your hosting dashboard):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | yes | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | yes | Supabase anon/publishable key |
+| `RESEND_API_KEY` | yes (for enquiries) | Resend API key for email notifications |
 
-## Learn More
+Only publishable (anon) Supabase keys are used client-side. `RESEND_API_KEY` is
+server-only and must never be exposed to the browser.
 
-To learn more about Next.js, take a look at the following resources:
+## Content architecture
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+All marketing copy and project data live in typed files, ready for a future CMS migration:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `lib/site.ts` — business identity, contact details, social links (single source of truth)
+- `lib/data/services.ts` — service categories + full service-page content
+- `lib/data/projects.ts` — selected work / case studies
+- `lib/data/content.ts` — outcomes, process, differentiators, industries, FAQs
 
-## Deploy on Vercel
+Dynamic content from Supabase: `posts` (insights articles) and `tools` (free tools).
+Enquiries are inserted into the `enquiries` table; an email notification is fired via
+`/api/send-enquiry`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Deploys to Vercel on push to `main`.
+- The sitemap (`app/sitemap.ts`) and robots (`app/robots.ts`) use the canonical
+  domain configured in `lib/site.ts`.
+- Legacy URLs (`/All-Services`, `/blog/*`, `/Services/...`, `/contacts`) redirect to the
+  current architecture via `next.config.ts` and `middleware.ts`.

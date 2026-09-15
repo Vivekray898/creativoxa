@@ -167,16 +167,6 @@
     background: var(--surface-2);
   }
 
-  .btn-ghost {
-    background: transparent;
-    color: var(--foreground);
-    border: 1px solid transparent;
-  }
-
-  .btn-ghost:hover:not(:disabled) {
-    background: var(--surface-2);
-  }
-
   /* Editorial eyebrow label above headings */
   .eyebrow {
     display: inline-flex;
@@ -194,29 +184,6 @@
     width: 1.5rem;
     height: 1px;
     background: var(--primary);
-  }
-
-  /* Text link with animated underline */
-  .link-underline {
-    position: relative;
-  }
-
-  .link-underline::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 100%;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.25s ease;
-  }
-
-  .link-underline:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
   }
 
   /* Cards — restrained */

@@ -8,7 +8,12 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with Creativoxa on WhatsApp"
-      className="fixed bottom-5 right-5 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full border border-line bg-surface text-muted shadow-lg transition-colors hover:border-[#25D366] hover:text-[#25D366]"
+      style={{
+        position: "fixed",
+        right: "max(1.25rem, env(safe-area-inset-right))",
+        bottom: "max(1.25rem, env(safe-area-inset-bottom))",
+      }}
+      className="z-40 inline-flex h-12 w-12 items-center justify-center rounded-full border border-line bg-surface text-muted shadow-lg transition-colors hover:border-[#25D366] hover:text-[#25D366]"
     >
       <Icon name="whatsapp" className="h-6 w-6" />
     </a>

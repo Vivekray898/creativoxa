@@ -6,6 +6,7 @@ import { Container, ButtonLink } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
 import FinalCTA from "@/components/sections/FinalCTA";
 import { projects } from "@/lib/data/projects";
+import { JsonLd, breadcrumbSchema } from "@/lib/seo";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -44,6 +45,13 @@ export default async function WorkDetailPage({
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Work", path: "/work" },
+          { name: project.name, path: `/work/${project.slug}` },
+        ])}
+      />
       <section className="border-b border-line">
         <Container className="py-14 lg:py-20">
           <Reveal className="max-w-3xl">

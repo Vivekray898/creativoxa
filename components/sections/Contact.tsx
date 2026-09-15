@@ -11,7 +11,7 @@ export default function Contact() {
             <SectionHeading
               eyebrow="Contact"
               title="Have a project in mind?"
-              description="Tell us what you're working on and we'll get back to you with the next steps — usually within one business day."
+              description="Tell us what you're working on and we'll get back to you with the next steps."
             />
             <div className="mt-8 space-y-4">
               {[
