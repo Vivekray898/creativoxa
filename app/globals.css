@@ -261,3 +261,10 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+
+html,
+body {
+  overflow-x: clip;
+  max-width: 100%;
+}
