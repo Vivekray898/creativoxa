@@ -60,7 +60,7 @@ export default function ServicesPage() {
                     </h3>
                     <p className="mt-2.5 flex-1 text-sm leading-relaxed text-muted">{s.excerpt}</p>
                     <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
-                      Learn more
+                      Explore {s.shortTitle}
                       <Icon
                         name="arrowRight"
                         className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1"

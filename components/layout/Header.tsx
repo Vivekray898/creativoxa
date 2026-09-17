@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import ThemeToggle from "@/components/common/ThemeToggle";
 import Icon from "@/components/ui/Icon";
@@ -36,13 +36,15 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
-  // Portal target only exists on the client.
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // Portal target only exists on the client. useSyncExternalStore gives the
+  // hydration-safe "mounted" flag without a setState-in-effect.
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   // Close menus when navigation happens.
   const [prevPathname, setPrevPathname] = useState(pathname);
@@ -171,7 +173,7 @@ export default function Header() {
 
           <div className="flex items-center gap-2.5">
             <ThemeToggle />
-            <Link href="/contact" className="btn btn-primary hidden h-9 px-4 text-sm md:inline-flex">
+            <Link href="/contact" className="btn btn-primary hidden h-10 px-5 text-sm md:inline-flex">
               Start a Project
             </Link>
 
@@ -181,7 +183,7 @@ export default function Header() {
               onClick={() => setMobileOpen((v) => !v)}
               aria-expanded={mobileOpen}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-foreground lg:hidden"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line text-foreground lg:hidden"
             >
               <Icon name={mobileOpen ? "close" : "menu"} className="h-4.5 w-4.5" />
             </button>
@@ -220,7 +222,7 @@ export default function Header() {
                   type="button"
                   onClick={() => setMobileOpen(false)}
                   aria-label="Close menu"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-foreground"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line text-foreground"
                 >
                   <Icon name="close" className="h-4 w-4" />
                 </button>
@@ -233,7 +235,7 @@ export default function Header() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="rounded-lg px-3 py-2 text-[15px] font-medium text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
+                      className="flex min-h-[50px] items-center rounded-lg px-3 py-2 text-[15px] font-medium text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
                     >
                       {item.name}
                     </Link>

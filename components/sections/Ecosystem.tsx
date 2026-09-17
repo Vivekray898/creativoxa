@@ -15,19 +15,23 @@ const nodes = [
 
 export default function Ecosystem() {
   return (
-    <section className="border-y border-line bg-surface py-20 lg:py-28">
+    <section className="border-y border-ink bg-ink py-20 text-ink-foreground lg:py-28">
       <Container>
         <Reveal className="mx-auto max-w-3xl text-center">
-          <p className="eyebrow justify-center">The bigger picture</p>
-          <h2 className="mt-4 text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl">
-            Your digital presence is a chain.
-            <br />
-            It performs at its weakest link.
+          <p className="eyebrow justify-center">
+            <span className="text-ink-faint">10</span>
+            The bigger picture
+          </p>
+          <h2 className="font-display mt-4 text-balance text-3xl font-bold leading-[1.08] tracking-tight text-ink-foreground sm:text-4xl">
+            Your digital presence is a chain.{" "}
+            <span className="bg-gradient-to-r from-sky-400 via-primary to-violet-400 bg-clip-text text-transparent">
+              It performs at its weakest link.
+            </span>
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+          <p className="mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-ink-muted sm:text-lg">
             Ads feed the website. The website feeds enquiries. Listings feed trust. We manage the
-            chain as a whole — because fixing one link while ignoring the rest wastes the money you
-            spend on all of them.
+            chain as a whole — because fixing one link while ignoring the rest wastes the money
+            you spend on all of them.
           </p>
         </Reveal>
 
@@ -37,27 +41,27 @@ export default function Ecosystem() {
             {nodes.map((n, i) => (
               <li
                 key={n.label}
-                className="relative rounded-[10px] border border-line bg-background p-4 transition-colors hover:border-line-strong"
+                className="group relative rounded-[10px] border border-ink-line bg-ink-surface p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-ink-line-strong"
               >
                 {/* connector (desktop) */}
                 {i < nodes.length - 1 && (
                   <span
                     aria-hidden="true"
-                    className="absolute -right-2.5 top-1/2 hidden -translate-y-1/2 text-faint lg:block"
+                    className="absolute -right-2.5 top-1/2 hidden -translate-y-1/2 text-ink-faint lg:block"
                   >
                     <Icon name="arrowRight" className="h-3.5 w-3.5" />
                   </span>
                 )}
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-soft text-primary">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink-accent-soft text-primary">
                     <Icon name={n.icon} className="h-4 w-4" />
                   </span>
-                  <p className="text-sm font-semibold text-foreground">{n.label}</p>
-                  <span className="ml-auto text-[10px] font-medium text-faint">
+                  <p className="text-sm font-semibold text-ink-foreground">{n.label}</p>
+                  <span className="ml-auto text-[10px] font-medium text-ink-faint">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>
-                <p className="mt-2 text-xs leading-relaxed text-muted">{n.note}</p>
+                <p className="mt-2 text-xs leading-relaxed text-ink-muted">{n.note}</p>
               </li>
             ))}
           </ol>
@@ -67,6 +71,9 @@ export default function Ecosystem() {
           <ButtonLink href="/contact" variant="primary">
             Discuss Your Business
           </ButtonLink>
+          <p className="mt-4 text-sm text-ink-faint">
+            A conversation first — no obligation, no jargon.
+          </p>
         </Reveal>
       </Container>
     </section>

@@ -17,12 +17,15 @@ export function Container({
 
 export function SectionHeading({
   eyebrow,
+  index,
   title,
   description,
   align = "left",
   className = "",
 }: {
   eyebrow?: string;
+  /** Chapter number, rendered as part of the eyebrow (e.g. "01"). */
+  index?: string;
   title: ReactNode;
   description?: ReactNode;
   align?: "left" | "center";
@@ -31,12 +34,17 @@ export function SectionHeading({
   const isCenter = align === "center";
   return (
     <div className={`${isCenter ? "mx-auto text-center" : ""} max-w-3xl ${className}`}>
-      {eyebrow ? <p className="eyebrow mb-4 justify-center">{eyebrow}</p> : null}
-      <h2 className="text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem]">
+      {eyebrow || index ? (
+        <p className={`eyebrow mb-4 ${isCenter ? "justify-center" : ""}`}>
+          {index ? <span className="text-faint">{index}</span> : null}
+          {eyebrow}
+        </p>
+      ) : null}
+      <h2 className="text-balance text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem]">
         {title}
       </h2>
       {description ? (
-        <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">{description}</p>
+        <p className="mt-4 text-pretty text-base leading-relaxed text-muted sm:text-lg">{description}</p>
       ) : null}
     </div>
   );
@@ -108,7 +116,7 @@ export function ArrowLink({
       </svg>
     </>
   );
-  const cls = `group inline-flex items-center gap-2 text-sm font-semibold text-foreground transition-colors hover:text-primary ${className}`;
+  const cls = `group inline-flex items-center gap-2 py-2 -my-2 text-sm font-semibold text-foreground transition-colors hover:text-primary ${className}`;
   if (external) {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>

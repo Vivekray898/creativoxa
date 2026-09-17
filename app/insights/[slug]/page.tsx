@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
 import FinalCTA from "@/components/sections/FinalCTA";
 import { supabase } from "@/lib/supabase";
+import { site } from "@/lib/site";
 
 export const revalidate = 300;
 
@@ -45,7 +46,7 @@ export async function generateMetadata({
       title: post.title,
       description: post.excerpt,
       type: "article",
-      url: `https://www.creativoxa.com/insights/${post.slug}`,
+      url: `${site.url}/insights/${post.slug}`,
     },
   };
 }

@@ -3,8 +3,6 @@ import { Container, SectionHeading, ArrowLink } from "@/components/ui/primitives
 import Reveal from "@/components/ui/Reveal";
 import { supabase } from "@/lib/supabase";
 
-export const revalidate = 300;
-
 type Post = {
   slug: string;
   title: string;
@@ -28,6 +26,7 @@ export default async function InsightsPreview() {
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading
             eyebrow="Insights"
+            index="12"
             title="Notes on digital marketing that works."
             description="Practical writing on search, ads, websites and the digital habits of growing businesses."
           />

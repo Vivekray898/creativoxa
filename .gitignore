@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# local preview snapshots (generated for visual inspection)
+/.preview/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

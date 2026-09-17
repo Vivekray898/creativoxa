@@ -18,9 +18,10 @@ const companyLinks = [
   { name: "Contact", href: "/contact" },
 ];
 
+// Human-readable labels, not raw profile URLs — a professional detail.
 const connectLinks = [
-  { name: site.socials.instagram.replace(/^https?:\/\//, ""), href: site.socials.instagram },
-  { name: site.socials.facebook.replace(/^https?:\/\//, ""), href: site.socials.facebook },
+  { name: "Instagram", href: site.socials.instagram },
+  { name: "Facebook", href: site.socials.facebook },
   { name: "X (Twitter)", href: site.socials.x },
   { name: "Pinterest", href: site.socials.pinterest },
 ];
@@ -139,7 +140,7 @@ export default function Footer() {
             </Link>
             .
           </p>
-          <Link href="/contact" className="btn btn-primary h-10 shrink-0 px-5 text-sm">
+          <Link href="/contact" className="btn btn-primary shrink-0 px-5 text-sm">
             Start a Project
           </Link>
         </div>

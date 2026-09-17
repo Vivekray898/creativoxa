@@ -11,19 +11,21 @@ type FinalCTAProps = {
 
 export default function FinalCTA({
   href = "/contact",
-  label = "Start a Project",
+  label = "Start a Conversation",
   secondary,
-  title = "Have a project in mind?",
-  body = "Tell us what you're working on. We'll come back with practical next steps — what we'd do first, what it costs, and what to expect.",
+  title = "Let's work out what your business actually needs.",
+  body = "Tell us where your business is, what you're trying to achieve, and where your digital presence stands today. We'll come back with a practical recommendation — what we'd do first, what it costs, and what to expect.",
 }: FinalCTAProps) {
   return (
     <section className="border-t border-line">
       <Container className="py-20 lg:py-28">
         <Reveal className="card mx-auto max-w-4xl px-6 py-12 text-center sm:px-12 lg:py-16">
-          <h2 className="mx-auto max-w-2xl text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl">
+          <h2 className="mx-auto max-w-2xl text-balance text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl">
             {title}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted">{body}</p>
+          <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-muted">
+            {body}
+          </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <ButtonLink href={href} variant="primary">
               {label}

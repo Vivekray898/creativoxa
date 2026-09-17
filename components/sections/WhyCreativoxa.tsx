@@ -11,6 +11,7 @@ export default function WhyCreativoxa() {
             <Reveal>
               <SectionHeading
                 eyebrow="Why Creativoxa"
+                index="09"
                 title="A partner, not another vendor."
                 description="Plenty of people can run ads or post content. Few take responsibility for how the whole digital presence performs together."
               />
@@ -25,9 +26,7 @@ export default function WhyCreativoxa() {
                   delay={i * 50}
                   className={`border-line p-0 py-6 sm:px-8 ${
                     i % 2 === 0 ? "sm:border-r sm:pl-0" : ""
-                  } ${i < whyPoints.length - 2 ? "border-b" : ""} ${
-                    i === 3 || i === 4 ? "sm:border-b sm:last:border-b-0" : ""
-                  }`}
+                  } ${i < whyPoints.length - 2 ? "border-b" : ""}`}
                 >
                   <h3 className="text-base font-semibold tracking-tight text-foreground">
                     {p.title}

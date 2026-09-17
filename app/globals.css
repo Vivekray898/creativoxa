@@ -21,11 +21,36 @@
   --border: #e4e4e1;
   --border-strong: #cfcfcb;
 
-  /* Accent */
+  /* Accent — the brand blue stays the anchor */
   --primary: #1f5eff;
   --primary-hover: #1a50d8;
   --primary-foreground: #ffffff;
   --primary-soft: #eef3ff;
+
+  /* Secondary accents — used deliberately, never as a rainbow */
+  --accent: #6d28d9; /* violet */
+  --accent-2: #0284c7; /* sky */
+  --mint: #0d9488; /* teal-green for positive states */
+  --amber: #d97706; /* warm highlight */
+  --coral: #e11d48; /* rare emphasis */
+
+  /* Tint surfaces for icon tiles & color blocks */
+  --tint-blue: #eef3ff;
+  --tint-violet: #f2efff;
+  --tint-sky: #e8f5fd;
+  --tint-mint: #e6f7f4;
+  --tint-amber: #fdf3e3;
+  --tint-coral: #fdeef2;
+
+  /* Ink — for dark, high-contrast sections (light mode) */
+  --ink: #101114;
+  --ink-surface: #17181c;
+  --ink-line: #2a2c31;
+  --ink-line-strong: #3a3d44;
+  --ink-foreground: #f2f3f5;
+  --ink-muted: #a3a7ae;
+  --ink-faint: #6d7178;
+  --ink-accent-soft: rgba(77, 125, 255, 0.12);
 
   /* Shape */
   --radius: 10px;
@@ -50,6 +75,31 @@
   --primary-hover: #648cff;
   --primary-foreground: #ffffff;
   --primary-soft: rgba(77, 125, 255, 0.12);
+
+  /* Secondary accents, lifted for dark backgrounds */
+  --accent: #a78bfa;
+  --accent-2: #38bdf8;
+  --mint: #2dd4bf;
+  --amber: #fbbf24;
+  --coral: #fb7185;
+
+  --tint-blue: rgba(77, 125, 255, 0.12);
+  --tint-violet: rgba(167, 139, 250, 0.14);
+  --tint-sky: rgba(56, 189, 248, 0.12);
+  --tint-mint: rgba(45, 212, 191, 0.12);
+  --tint-amber: rgba(251, 191, 36, 0.12);
+  --tint-coral: rgba(251, 113, 133, 0.12);
+
+  /* In dark mode the page background is already dark — ink sections blend
+     into the page with a subtle surface lift instead of an inverse. */
+  --ink: #16171b;
+  --ink-surface: #1d1f24;
+  --ink-line: #2a2c31;
+  --ink-line-strong: #3a3d44;
+  --ink-foreground: #f2f3f5;
+  --ink-muted: #a3a7ae;
+  --ink-faint: #6d7178;
+  --ink-accent-soft: rgba(77, 125, 255, 0.12);
 }
 
 /* =========================================================
@@ -69,6 +119,31 @@
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-soft: var(--primary-soft);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-mint: var(--mint);
+  --color-amber: var(--amber);
+  --color-coral: var(--coral);
+  --color-tint-blue: var(--tint-blue);
+  --color-tint-violet: var(--tint-violet);
+  --color-tint-sky: var(--tint-sky);
+  --color-tint-mint: var(--tint-mint);
+  --color-tint-amber: var(--tint-amber);
+  --color-tint-coral: var(--tint-coral);
+
+  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: var(--ink);
+  --color-ink-surface: var(--ink-surface);
+  --color-ink-line: var(--ink-line);
+  --color-ink-line-strong: var(--ink-line-strong);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-ink-accent-soft: var(--ink-accent-soft);
+
+  --shadow-card: 0 8px 30px -12px rgb(0 0 0 / 0.12);
+  --shadow-card-dark: 0 8px 30px -12px rgb(0 0 0 / 0.6);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
@@ -115,6 +190,35 @@
    ========================================================= */
 
 @layer components {
+  /* Display headings — the confident agency voice.
+     Explicit fallback chain so a missing font variable degrades to Inter,
+     never to a serif default. */
+  .font-display {
+    font-family: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.03em;
+  }
+
+  .display-xl {
+    font-family: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.03em;
+    font-size: clamp(2.5rem, 6.5vw, 4.5rem);
+    line-height: 1.02;
+    font-weight: 700;
+  }
+
+  /* Icon tiles — the recurring brand motif */
+  .icon-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .group:hover .icon-tile {
+    transform: scale(1.08) rotate(-3deg);
+  }
+
   /* Buttons — one consistent height & shape */
   .btn {
     display: inline-flex;
@@ -202,12 +306,12 @@
 
   .card-hover:hover {
     border-color: var(--border-strong);
-    box-shadow: 0 8px 30px -12px rgb(0 0 0 / 0.12);
+    box-shadow: var(--shadow-card);
     transform: translateY(-2px);
   }
 
   .dark .card-hover:hover {
-    box-shadow: 0 8px 30px -12px rgb(0 0 0 / 0.6);
+    box-shadow: var(--shadow-card-dark);
   }
 
   /* Section label used in footer/nav columns */
@@ -223,7 +327,6 @@
 /* =========================================================
    REVEAL ANIMATION (IntersectionObserver adds .is-visible)
    ========================================================= */
-
 .reveal {
   opacity: 0;
   transform: translateY(16px);
@@ -260,8 +363,36 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  .marquee-track {
+    animation: none !important;
+  }
+
+  /* With animation disabled, half the marquee would sit off-screen —
+     collapse to a static wrapped row instead. */
+  .marquee .marquee-track {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
+
+/* Platform marquee — single slow loop, pauses on hover, disabled for reduced motion */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 42s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
 
 html,
 body {

@@ -7,6 +7,7 @@ import Reveal from "@/components/ui/Reveal";
 import FinalCTA from "@/components/sections/FinalCTA";
 import { projects } from "@/lib/data/projects";
 import { JsonLd, breadcrumbSchema } from "@/lib/seo";
+import { site } from "@/lib/site";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -27,7 +28,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${project.name} — ${project.industry}`,
       description: project.description,
-      url: `https://www.creativoxa.com/work/${project.slug}`,
+      url: `${site.url}/work/${project.slug}`,
     },
   };
 }
