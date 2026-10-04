@@ -1,7 +1,9 @@
 import { Container, SectionHeading, ButtonLink } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
 import Icon from "@/components/ui/Icon";
-import { industries } from "@/lib/data/content";
+import { getIndustries } from "@/lib/cms/queries";
+import type { IconName } from "@/components/ui/Icon";
+import type { HomeSectionProps } from "./types";
 
 // Rotating tint palette — every industry gets its own visual identity without
 // inventing new colors. Tints cycle through the accent system.
@@ -14,34 +16,42 @@ const tileStyles = [
   { tile: "bg-tint-blue", tone: "text-primary" },
 ];
 
-const icons = ["building", "heart", "graduation", "briefcase", "users", "monitor"] as const;
+export default async function Industries({ index, title, description }: HomeSectionProps) {
+  const industries = await getIndustries();
+  if (industries.length === 0) return null;
 
-export default function Industries() {
   return (
     <section className="py-20 lg:py-28">
       <Container>
         <Reveal>
           <SectionHeading
             eyebrow="Who we work with"
-            index="11"
-            title="Different businesses. Different digital strategies."
-            description="We don't claim to be specialists in every industry. We claim something more useful: we take the time to understand how your business wins customers — then build the digital presence around that."
+            index={index}
+            title={title ?? "Different businesses. Different digital strategies."}
+            description={
+              description ??
+              "We don't claim to be specialists in every industry. We claim something more useful: we take the time to understand how your business wins customers — then build the digital presence around that."
+            }
           />
         </Reveal>
 
         <ul className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-16 lg:grid-cols-5">
-          {industries.map((ind, i) => {
+          {industries.map((industry, i) => {
             const style = tileStyles[i % tileStyles.length];
             return (
-              <Reveal key={ind.name} delay={(i % 5) * 40} as="li">
+              <Reveal key={industry.id} delay={(i % 5) * 40} as="li">
                 <div className="group h-full rounded-xl border border-line bg-surface p-5 transition-all duration-300 hover:-translate-y-1 hover:border-line-strong hover:shadow-card">
                   <span className={`icon-tile h-10 w-10 ${style.tile} ${style.tone}`}>
-                    <Icon name={icons[i % icons.length]} className="h-5 w-5" />
+                    <Icon name={(industry.icon || "building") as IconName} className="h-5 w-5" />
                   </span>
                   <h3 className="mt-3.5 text-sm font-semibold tracking-tight text-foreground">
-                    {ind.name}
+                    {industry.name}
                   </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-muted">{ind.note}</p>
+                  {industry.short_description ? (
+                    <p className="mt-1.5 text-xs leading-relaxed text-muted">
+                      {industry.short_description}
+                    </p>
+                  ) : null}
                 </div>
               </Reveal>
             );

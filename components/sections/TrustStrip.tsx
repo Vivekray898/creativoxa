@@ -1,5 +1,6 @@
 import { Container } from "@/components/ui/primitives";
 import Icon from "@/components/ui/Icon";
+import type { HomeSectionProps } from "./types";
 
 // The channels where the work happens — an active marquee adds life without
 // a single fabricated claim. Duplicated array = seamless loop.
@@ -14,14 +15,14 @@ const platforms = [
   { name: "Meta Ads", icon: "funnel" as const, tone: "text-accent", tile: "bg-tint-violet" },
 ];
 
-export default function TrustStrip() {
+export default function TrustStrip({ index }: HomeSectionProps) {
   const items = [...platforms, ...platforms];
 
   return (
     <section className="border-b border-line bg-surface">
       <Container className="py-8">
         <p className="eyebrow justify-center text-center">
-          <span className="text-faint">01</span>
+          <span className="text-faint">{index}</span>
           The channels we manage every day
         </p>
         <div className="marquee relative mt-6 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">

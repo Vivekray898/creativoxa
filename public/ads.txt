@@ -1,0 +1,3 @@
+# ads.txt — authorise ad sellers for creativoxa.com
+# IAB ads.txt v1.2. Placeholder publisher id: replace with the real AdSense id.
+google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

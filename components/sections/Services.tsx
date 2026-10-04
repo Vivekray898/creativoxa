@@ -1,67 +1,90 @@
 import Link from "next/link";
-import { Container, SectionHeading, ArrowLink } from "@/components/ui/primitives";
+import { Container, SectionHeading, ArrowLink, AccentText } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
 import Icon from "@/components/ui/Icon";
-import { serviceCategories } from "@/lib/data/services";
+import type { IconName } from "@/components/ui/Icon";
+import { getServiceCategories, getServices } from "@/lib/cms/queries";
+import type { ServiceRow } from "@/types/cms";
+import type { HomeSectionProps } from "./types";
 
-// Visual identity per category — icon + tint create scannable variety while
-// staying inside the palette. Deep links go to the closest service page.
-const categoryLinks: Record<
-  string,
-  { href: string; label: string; icon: "cursor" | "search" | "users" | "code" | "briefcase"; tint: string; tone: string }
-> = {
-  "digital-advertising": {
-    href: "/services/digital-marketing",
-    label: "Explore Digital Advertising",
-    icon: "cursor",
-    tint: "bg-tint-amber",
-    tone: "text-amber",
-  },
-  "search-local-growth": {
-    href: "/services/seo",
-    label: "Explore Search & Local",
-    icon: "search",
-    tint: "bg-tint-sky",
-    tone: "text-accent-2",
-  },
-  "social-media": {
-    href: "/services/social-media",
-    label: "Explore Social Media",
-    icon: "users",
-    tint: "bg-tint-coral",
-    tone: "text-coral",
-  },
-  "web-digital": {
-    href: "/services/web-development",
-    label: "Explore Web & Digital",
-    icon: "code",
-    tint: "bg-tint-violet",
-    tone: "text-accent",
-  },
-  "business-digital-management": {
-    href: "/services/digital-marketing",
-    label: "Discuss Your Requirements",
-    icon: "briefcase",
-    tint: "bg-tint-mint",
-    tone: "text-mint",
-  },
+const DEFAULT_TITLE = "Everything you need to build a *stronger digital presence.*";
+
+// Tints cycle by position so each category has its own identity without adding
+// new colours to the palette.
+const tints = [
+  { tile: "bg-tint-amber", tone: "text-amber" },
+  { tile: "bg-tint-sky", tone: "text-accent-2" },
+  { tile: "bg-tint-coral", tone: "text-coral" },
+  { tile: "bg-tint-violet", tone: "text-accent" },
+  { tile: "bg-tint-mint", tone: "text-mint" },
+  { tile: "bg-tint-blue", tone: "text-primary" },
+];
+
+type Group = {
+  id: string;
+  label: string;
+  description: string | null;
+  href: string;
+  cta: string;
+  icon: IconName;
+  items: ServiceRow[];
+  featured: boolean;
 };
 
-export default function Services() {
+function iconName(service: ServiceRow | undefined): IconName {
+  return (service?.icon || "layers") as IconName;
+}
+
+export default async function Services({ index, title, description }: HomeSectionProps) {
+  const [services, categories] = await Promise.all([getServices(), getServiceCategories()]);
+
+  const groups: Group[] = categories.map((category) => {
+    const items = services.filter((service) => service.category_id === category.id);
+    const lead = items[0];
+    return {
+      id: category.id,
+      label: category.label,
+      description: category.description,
+      href: lead ? `/services/${lead.slug}` : "/services",
+      cta: lead ? `Explore ${lead.short_title}` : "Compare all services",
+      icon: iconName(lead),
+      items,
+      featured: items.some((service) => service.featured),
+    };
+  });
+
+  // Services saved without a category still appear, so nothing is invisible
+  // simply because it was filed loosely.
+  const uncategorised = services.filter(
+    (service) => !service.category_id || !categories.some((c) => c.id === service.category_id)
+  );
+  if (uncategorised.length > 0) {
+    groups.push({
+      id: "uncategorised",
+      label: "More services",
+      description: null,
+      href: uncategorised[0] ? `/services/${uncategorised[0].slug}` : "/services",
+      cta: uncategorised[0] ? `Explore ${uncategorised[0].short_title}` : "Compare all services",
+      icon: iconName(uncategorised[0]),
+      items: uncategorised,
+      featured: false,
+    });
+  }
+
+  if (groups.length === 0) return null;
+
+  const featuredIndex = groups.findIndex((group) => group.featured);
+  const featuredAt = featuredIndex === -1 ? -1 : featuredIndex;
+
   return (
     <section className="py-20 lg:py-28">
       <Container>
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading
             eyebrow="Services"
-            index="02"
-            title={
-              <>
-                Everything you need to build a{" "}
-                <span className="text-primary">stronger digital presence.</span>
-              </>
-            }
-            description="Five areas of work, planned as one system. Start with what matters most now — expand as the business grows."
+            index={index}
+            title={<AccentText text={title || DEFAULT_TITLE} />}
+            description={description ?? undefined}
           />
           <ArrowLink href="/services" className="shrink-0">
             Compare all services
@@ -69,28 +92,35 @@ export default function Services() {
         </Reveal>
 
         <ol className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:mt-16">
-          {serviceCategories.map((category, i) => {
-            const link = categoryLinks[category.id];
+          {groups.map((group, i) => {
+            const tint = tints[i % tints.length];
+            const isFeatured = i === featuredAt;
             return (
-              <Reveal key={category.id} delay={i * 60} className={i === 0 ? "sm:col-span-2 lg:col-span-2" : ""}>
-                <Link href={link?.href ?? "/services"} className="group block h-full">
+              <Reveal
+                key={group.id}
+                delay={i * 60}
+                className={isFeatured ? "sm:col-span-2 lg:col-span-2" : ""}
+              >
+                <Link href={group.href} className="group block h-full">
                   <article
                     className={`card card-hover relative flex h-full flex-col overflow-hidden p-6 ${
-                      i === 0 ? "border-primary/25 bg-gradient-to-br from-tint-blue via-surface to-surface sm:flex-row sm:items-center sm:gap-8 sm:p-8" : ""
+                      isFeatured
+                        ? "border-primary/25 bg-gradient-to-br from-tint-blue via-surface to-surface sm:flex-row sm:items-center sm:gap-8 sm:p-8"
+                        : ""
                     }`}
                   >
-                    {i === 0 && (
+                    {isFeatured ? (
                       <span className="absolute right-5 top-5 rounded-full bg-primary-soft px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
-                        Most requested
+                        Featured
                       </span>
-                    )}
+                    ) : null}
 
                     <span
-                      className={`icon-tile mb-5 h-14 w-14 shrink-0 ${link?.tint ?? "bg-tint-blue"} ${
-                        link?.tone ?? "text-primary"
-                      } ${i === 0 ? "sm:mb-0 sm:h-20 sm:w-20" : ""}`}
+                      className={`icon-tile mb-5 h-14 w-14 shrink-0 ${tint.tile} ${tint.tone} ${
+                        isFeatured ? "sm:mb-0 sm:h-20 sm:w-20" : ""
+                      }`}
                     >
-                      <Icon name={link?.icon ?? "bolt"} className={i === 0 ? "h-9 w-9" : "h-6.5 w-6.5"} />
+                      <Icon name={group.icon} className={isFeatured ? "h-9 w-9" : "h-6.5 w-6.5"} />
                     </span>
 
                     <div className="flex min-w-0 flex-1 flex-col">
@@ -99,33 +129,32 @@ export default function Services() {
                       </span>
                       <h3
                         className={`font-display mt-1 font-bold tracking-tight text-foreground ${
-                          i === 0 ? "text-2xl sm:text-[1.7rem]" : "text-lg"
+                          isFeatured ? "text-2xl sm:text-[1.7rem]" : "text-lg"
                         }`}
                       >
-                        {category.label}
+                        {group.label}
                       </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-muted">
-                        {category.description}
-                      </p>
+                      {group.description ? (
+                        <p className="mt-2.5 text-sm leading-relaxed text-muted">
+                          {group.description}
+                        </p>
+                      ) : null}
 
-                      <ul className={`mt-4 flex flex-wrap gap-1.5 ${i === 0 ? "" : ""}`}>
-                        {category.services.slice(0, i === 0 ? 6 : 4).map((s) => (
-                          <li
-                            key={s.name}
-                            className="rounded-full border border-line bg-background px-2.5 py-0.5 text-[11px] font-medium text-muted"
-                          >
-                            {s.name}
-                          </li>
-                        ))}
-                        {category.services.length > (i === 0 ? 6 : 4) && (
-                          <li className="rounded-full border border-line bg-background px-2.5 py-0.5 text-[11px] font-medium text-faint">
-                            +{category.services.length - (i === 0 ? 6 : 4)} more
-                          </li>
-                        )}
-                      </ul>
+                      {group.items.length > 0 ? (
+                        <ul className="mt-4 flex flex-wrap gap-1.5">
+                          {group.items.map((service) => (
+                            <li
+                              key={service.id}
+                              className="rounded-md bg-surface-2 px-2 py-0.5 text-[11px] font-medium text-muted"
+                            >
+                              {service.short_title}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
 
-                      <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                        {link?.label ?? "Explore Services"}
+                      <span className="mt-5 inline-flex items-center gap-2 pt-1 text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
+                        {group.cta}
                         <Icon
                           name="arrowRight"
                           className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1"
@@ -138,10 +167,6 @@ export default function Services() {
             );
           })}
         </ol>
-
-        <Reveal className="mt-10 text-center">
-          <ArrowLink href="/services">See how we work across every service</ArrowLink>
-        </Reveal>
       </Container>
     </section>
   );

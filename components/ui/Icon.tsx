@@ -1,8 +1,3 @@
-type IconProps = {
-  name: keyof typeof paths;
-  className?: string;
-};
-
 // Minimal, consistent 24x24 stroke icon set (Heroicons-style paths)
 const paths = {
   search: <path d="m21 21-5.2-5.2M17 10.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z" />,
@@ -22,6 +17,10 @@ const paths = {
   arrowRight: <path d="M4 12h15m-6-7 7 7-7 7" />,
   plus: <path d="M12 5v14M5 12h14" />,
   chevronDown: <path d="m6 9 6 6 6-6" />,
+  chevronLeft: <path d="m14 6-6 6 6 6" />,
+  chevronRight: <path d="m10 6 6 6-6 6" />,
+  arrowUp: <path d="M12 19V5m0 0-6.5 6.5M12 5l6.5 6.5" />,
+  arrowDown: <path d="M12 5v14m0 0 6.5-6.5M12 19l-6.5-6.5" />,
   close: <path d="M6 6l12 12M18 6 6 18" />,
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
   sun: (
@@ -44,11 +43,36 @@ const paths = {
   monitor: <path d="M8 21h8m-4-4v4M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z" />,
   bolt: <path d="M13 3 4 14h6l-1 7 9-11h-6l1-7Z" />,
   refresh: <path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4h-4" />,
+  // Admin icons
+  logout: <path d="M15 12H4m0 0 3.5-3.5M4 12l3.5 3.5M11 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6" />,
+  edit: <path d="M4 20h4L19 9a2.5 2.5 0 0 0-3.5-3.5L4.5 16.5 4 20Z" />,
+  trash: <path d="M5 7h14m-9 0V5.5A1.5 1.5 0 0 1 11.5 4h1A1.5 1.5 0 0 1 14 5.5V7m-8 0 .8 11.6A1.5 1.5 0 0 0 8.3 20h7.4a1.5 1.5 0 0 0 1.5-1.4L18 7" />,
+  eye: <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Zm9.5 2.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />,
+  image: <path d="M4 5h16v14H4V5Zm0 11 4-4 3 3 3-3 6 6" />,
+  upload: <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 20h14" />,
+  save: <path d="M6 4h9l4 4v12H6V4Zm3 0v5h6V4M9 20v-5h6v5" />,
+  star: <path d="m12 4 2.4 5 5.6.8-4 3.9 1 5.5-5-2.7-5 2.7 1-5.5-4-3.9 5.6-.8L12 4Z" />,
+  alert: <path d="M12 4 2.5 20h19L12 4Zm0 5.5v5M12 17h.01" />,
+  grid: <path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" />,
+  copy: <path d="M8 8h11v12H8V8ZM5 16V4h11" />,
+  filter: <path d="M4 5h16l-6 7v6l-4-2v-4L4 5Z" />,
+  externalLink: <path d="M14 4h6v6m0-6-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />,
   heart: <path d="M12 20s-7.5-4.6-7.5-10A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7.5 3c0 5.4-7.5 10-7.5 10Z" />,
   building: <path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16m4 0H2m4-12h2m4 0h2m-8 4h2m4 0h2m-8 4h2m4 0h2" />,
   graduation: <path d="m2 9 10-5 10 5-10 5L2 9Zm4 2.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5" />,
   stethoscope: <path d="M5 4v6a5 5 0 0 0 10 0V4M8 4H5m7 0h-3m6 7a4 4 0 1 0 0 .01M12 18h1.5a3.5 3.5 0 0 0 3.5-3.5V13m-9 5v3" />,
 } as const;
+
+/** Every icon the application can render — CMS fields store one of these names. */
+export type IconName = keyof typeof paths;
+
+/** Runtime list of icon names, used by the admin's icon picker. */
+export const ICON_NAMES = Object.keys(paths) as IconName[];
+
+type IconProps = {
+  name: IconName;
+  className?: string;
+};
 
 export default function Icon({ name, className = "h-5 w-5" }: IconProps) {
   return (

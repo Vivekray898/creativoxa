@@ -1,6 +1,7 @@
 import { Container, ButtonLink } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
 import Icon from "@/components/ui/Icon";
+import type { HomeSectionProps } from "./types";
 
 const nodes = [
   { label: "Website", icon: "code" as const, note: "The hub: fast, clear, trustworthy" },
@@ -13,13 +14,13 @@ const nodes = [
   { label: "Growth", icon: "chart" as const, note: "Measured, compounding results" },
 ];
 
-export default function Ecosystem() {
+export default function Ecosystem({ index }: HomeSectionProps) {
   return (
     <section className="border-y border-ink bg-ink py-20 text-ink-foreground lg:py-28">
       <Container>
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow justify-center">
-            <span className="text-ink-faint">10</span>
+            <span className="text-ink-faint">{index}</span>
             The bigger picture
           </p>
           <h2 className="font-display mt-4 text-balance text-3xl font-bold leading-[1.08] tracking-tight text-ink-foreground sm:text-4xl">

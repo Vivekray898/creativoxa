@@ -57,7 +57,7 @@ export default function EnquiryForm({ formSource = "Website" }: { formSource?: s
       form_source: formSource,
     };
 
-    // Client-side validation
+    // Client-side validation — the server validates again.
     if (!payload.name || !payload.email) {
       setStatus("error");
       setErrorMessage("Please fill in your name and email.");
@@ -70,42 +70,29 @@ export default function EnquiryForm({ formSource = "Website" }: { formSource?: s
     }
 
     try {
-      const { error: dbError } = await import("@/lib/supabase").then((m) =>
-        m.supabase.from("enquiries").insert([payload])
-      );
-
-      if (dbError) {
-        // The live table may not yet have the extended columns — retry with the
-        // original schema so the enquiry is never lost.
-        const fallback = await import("@/lib/supabase").then((m) =>
-          m.supabase
-            .from("enquiries")
-            .insert([
-              {
-                name: payload.name,
-                email: payload.email,
-                phone: payload.phone,
-                message: payload.message || `Service: ${payload.service}. Business: ${payload.business}`,
-                form_source: formSource,
-              },
-            ])
-        );
-        if (fallback.error) throw fallback.error;
-      }
-
-      // Fire-and-forget email notification
-      fetch("/api/send-enquiry", {
+      const response = await fetch("/api/send-enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-      }).catch(() => {});
+      });
+
+      if (!response.ok) {
+        const data = (await response.json().catch(() => ({}))) as { error?: string };
+        setStatus("error");
+        setErrorMessage(
+          data.error ||
+            "Something went wrong while sending your enquiry. Please try again, or email us directly."
+        );
+        return;
+      }
 
       setStatus("success");
       form.reset();
-    } catch (err) {
-      console.error("Enquiry error:", err);
+    } catch {
       setStatus("error");
-      setErrorMessage("Something went wrong while sending your enquiry. Please try again, or email us directly.");
+      setErrorMessage(
+        "We couldn't reach the server. Please check your connection and try again, or email us directly."
+      );
     }
   }
 

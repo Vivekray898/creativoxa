@@ -1,6 +1,7 @@
 import { Container, SectionHeading } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
 import Icon from "@/components/ui/Icon";
+import type { HomeSectionProps } from "./types";
 
 const problems = [
   { icon: "chart" as const, text: "Getting traffic, but not enough enquiries", tint: "bg-tint-coral", tone: "text-coral" },
@@ -13,14 +14,14 @@ const problems = [
   { icon: "puzzle" as const, text: "No one accountable for how it all works together", tint: "bg-tint-coral", tone: "text-coral" },
 ];
 
-export default function Problems() {
+export default function Problems({ index }: HomeSectionProps) {
   return (
     <section className="py-20 lg:py-28">
       <Container>
         <Reveal>
           <SectionHeading
             eyebrow="Problems we solve"
-            index="04"
+            index={index}
             title="Your marketing shouldn't feel disconnected."
             description="Most businesses don't have a marketing problem — they have a connection problem. Sound familiar?"
             align="center"

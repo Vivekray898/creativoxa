@@ -1,24 +1,11 @@
 import Link from "next/link";
 import { Container, SectionHeading, ArrowLink } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
-import { supabase } from "@/lib/supabase";
+import { getInsights } from "@/lib/cms/queries";
+import type { HomeSectionProps } from "./types";
 
-type Post = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  published_at: string;
-};
-
-export default async function InsightsPreview() {
-  const { data } = await supabase
-    .from("posts")
-    .select("slug, title, excerpt, category, published_at")
-    .order("published_at", { ascending: false })
-    .limit(3);
-
-  const posts = (data ?? []) as Post[];
+export default async function InsightsPreview({ index, title, description }: HomeSectionProps) {
+  const posts = await getInsights(3);
 
   return (
     <section className="border-y border-line bg-surface py-20 lg:py-24">
@@ -26,17 +13,22 @@ export default async function InsightsPreview() {
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading
             eyebrow="Insights"
-            index="12"
-            title="Notes on digital marketing that works."
-            description="Practical writing on search, ads, websites and the digital habits of growing businesses."
+            index={index}
+            title={title ?? "Notes on digital marketing that works."}
+            description={
+              description ??
+              "Practical writing on search, ads, websites and the digital habits of growing businesses."
+            }
           />
-          <ArrowLink href="/insights" className="shrink-0">All insights</ArrowLink>
+          <ArrowLink href="/insights" className="shrink-0">
+            All insights
+          </ArrowLink>
         </Reveal>
 
         {posts.length > 0 ? (
           <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
             {posts.map((post, i) => (
-              <Reveal key={post.slug} delay={i * 50}>
+              <Reveal key={post.id} delay={i * 50}>
                 <Link href={`/insights/${post.slug}`} className="group block h-full">
                   <article className="card card-hover flex h-full flex-col p-6">
                     <p className="text-xs font-medium uppercase tracking-widest text-primary">

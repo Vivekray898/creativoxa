@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import imageCompression from 'browser-image-compression';
 
 const FORMATS = [

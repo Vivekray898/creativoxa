@@ -1,17 +1,21 @@
 import { Container, SectionHeading, ArrowLink } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
 import { processSteps } from "@/lib/data/content";
+import type { HomeSectionProps } from "./types";
 
-export default function Process() {
+export default function Process({ index, title, description }: HomeSectionProps) {
   return (
     <section className="border-y border-line bg-gradient-to-b from-tint-blue/50 to-transparent py-20 lg:py-28">
       <Container>
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading
             eyebrow="How we work"
-            index="08"
-            title="From first conversation to ongoing growth."
-            description="A process simple enough to follow and disciplined enough to repeat. You always know what stage you're in and what happens next."
+            index={index}
+            title={title ?? "From first conversation to ongoing growth."}
+            description={
+              description ??
+              "A process simple enough to follow and disciplined enough to repeat. You always know what stage you're in and what happens next."
+            }
           />
           <ArrowLink href="/about" className="shrink-0">
             More about how we work

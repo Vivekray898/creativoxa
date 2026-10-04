@@ -327,7 +327,12 @@
 /* =========================================================
    REVEAL ANIMATION (IntersectionObserver adds .is-visible)
    ========================================================= */
-.reveal {
+/* Content is visible by default. The `js` class is added to <html> by an inline
+   script in the root layout before first paint, and only then does the hidden
+   start state apply. Without JavaScript — most LLM crawlers, social scrapers
+   and text-mode browsers — every section renders fully visible instead of
+   sitting at opacity 0 until hydration. */
+.js .reveal {
   opacity: 0;
   transform: translateY(16px);
   transition:
@@ -336,7 +341,7 @@
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-.reveal.is-visible {
+.js .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -350,7 +355,7 @@
     scroll-behavior: auto;
   }
 
-  .reveal {
+  .js .reveal {
     opacity: 1;
     transform: none;
     transition: none;

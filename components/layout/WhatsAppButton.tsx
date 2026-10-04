@@ -1,10 +1,11 @@
-import { site } from "@/lib/site";
 import Icon from "@/components/ui/Icon";
 
-export default function WhatsAppButton() {
+export default function WhatsAppButton({ href }: { href?: string | null }) {
+  if (!href) return null;
+
   return (
     <a
-      href={site.whatsapp}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with Creativoxa on WhatsApp"

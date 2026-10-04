@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 
 export function Container({
   children,
@@ -12,6 +12,27 @@ export function Container({
     <div className={`mx-auto w-full max-w-[var(--container)] px-5 sm:px-8 ${className}`}>
       {children}
     </div>
+  );
+}
+
+/**
+ * Renders CMS copy where `*asterisks*` mark the phrase shown in the accent
+ * colour — the convention documented in the admin's section-title fields.
+ */
+export function AccentText({ text }: { text: string }) {
+  const parts = text.split(/\*(.+?)\*/g);
+  return (
+    <>
+      {parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <span key={i} className="text-primary">
+            {part}
+          </span>
+        ) : (
+          <Fragment key={i}>{part}</Fragment>
+        )
+      )}
+    </>
   );
 }
 

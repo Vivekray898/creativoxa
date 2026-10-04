@@ -1,13 +1,14 @@
 import { Container } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
+import type { HomeSectionProps } from "./types";
 
-export default function WhatWeDo() {
+export default function WhatWeDo({ index }: HomeSectionProps) {
   return (
     <section className="border-b border-line">
       <Container className="py-16 lg:py-20">
         <Reveal className="grid grid-cols-1 gap-8 lg:grid-cols-12">
           <p className="eyebrow mb-0 w-full lg:hidden">
-            <span className="text-faint">03</span>What we do
+            <span className="text-faint">{index}</span>What we do
           </p>
           <p className="font-display text-2xl font-semibold leading-snug tracking-tight text-pretty text-foreground lg:col-span-8 lg:text-[1.7rem]">
             Creativoxa is a <span className="text-primary">digital growth partner</span>. We plan

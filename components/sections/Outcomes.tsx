@@ -2,15 +2,16 @@ import { Container, SectionHeading } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
 import Icon from "@/components/ui/Icon";
 import { outcomes } from "@/lib/data/content";
+import type { HomeSectionProps } from "./types";
 
-export default function Outcomes() {
+export default function Outcomes({ index }: HomeSectionProps) {
   return (
     <section className="border-y border-line bg-surface py-20 lg:py-24">
       <Container>
         <Reveal>
           <SectionHeading
             eyebrow="How we help"
-            index="05"
+            index={index}
             title="The outcome is the point."
             description="Services only matter for what they produce. Here's the chain we build for every client — from visibility to steady growth."
           />

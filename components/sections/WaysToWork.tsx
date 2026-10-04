@@ -1,5 +1,6 @@
 import { Container, SectionHeading } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
+import type { HomeSectionProps } from "./types";
 
 const models = [
   {
@@ -16,7 +17,7 @@ const models = [
   },
 ];
 
-export default function WaysToWork() {
+export default function WaysToWork({ index }: HomeSectionProps) {
   return (
     <section className="border-t border-line">
       <Container className="py-16 lg:py-20">
@@ -24,7 +25,7 @@ export default function WaysToWork() {
           <div className="lg:col-span-4">
             <SectionHeading
               eyebrow="Ways to work together"
-              index="07"
+              index={index}
               title="Engagements that fit the stage of your business."
             />
           </div>

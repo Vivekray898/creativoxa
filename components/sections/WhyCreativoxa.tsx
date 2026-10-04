@@ -1,8 +1,9 @@
 import { Container, SectionHeading } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
 import { whyPoints } from "@/lib/data/content";
+import type { HomeSectionProps } from "./types";
 
-export default function WhyCreativoxa() {
+export default function WhyCreativoxa({ index }: HomeSectionProps) {
   return (
     <section className="py-20 lg:py-28">
       <Container>
@@ -11,7 +12,7 @@ export default function WhyCreativoxa() {
             <Reveal>
               <SectionHeading
                 eyebrow="Why Creativoxa"
-                index="09"
+                index={index}
                 title="A partner, not another vendor."
                 description="Plenty of people can run ads or post content. Few take responsibility for how the whole digital presence performs together."
               />

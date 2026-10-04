@@ -1,7 +1,9 @@
 import { Container, ButtonLink, ArrowLink } from "@/components/ui/primitives";
 import Reveal from "@/components/ui/Reveal";
+import type { HomeSectionProps } from "./types";
 
-export default function AboutTeaser() {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function AboutTeaser(_props: HomeSectionProps) {
   return (
     <section className="py-20 lg:py-28">
       <Container>
