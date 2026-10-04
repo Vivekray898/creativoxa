@@ -12,6 +12,12 @@
 import { gzipSync } from "node:zlib";
 
 const base = process.argv[2] ?? "http://127.0.0.1:3000";
+// The original target was 150 KB. It is not reachable here: a Next 16 runtime
+// plus React 19 costs ~132 KB gzipped before a single line of this app's own
+// code, which measures ~24 KB across its largest modules. 185 KB leaves ~29 KB
+// of headroom over the heaviest real route (/tools/word-counter, 181.7 KB) and
+// is a ceiling the project can actually stay under. Re-tighten it deliberately,
+// never by accident.
 const BUDGET_KB = Number(process.env.JS_BUDGET_KB ?? 185);
 
 const ROUTES = [
@@ -55,7 +61,18 @@ async function sizeOf(url) {
 
 const results = [];
 for (const route of ROUTES) {
-  const html = await (await fetch(`${base}${route}`)).text();
+  const res = await fetch(`${base}${route}`);
+  // A broken route used to score 0 KB and sail through the budget, which is the
+  // one thing a size gate must never do: a 404 or a 500 is a far worse failure
+  // than an oversized bundle, and it must fail loudly rather than as a pass.
+  if (!res.ok) {
+    console.error(
+      `\nRoute ${route} returned ${res.status}. Fix the route before reading ` +
+        `anything into its JS budget.`
+    );
+    process.exit(1);
+  }
+  const html = await res.text();
   const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map((m) => ({
     ...attrs(m[0]),
     body: m[1] ?? "",
@@ -68,6 +85,15 @@ for (const route of ROUTES) {
 
   let total = 0;
   for (const src of new Set(srcs)) total += await sizeOf(src);
+  // Same reasoning: an empty script list means the measurement is broken, not
+  // that the route is tiny.
+  if (srcs.length === 0) {
+    console.error(
+      `\nRoute ${route} exposed no <script src> tags, so its JS total would ` +
+        `silently report 0 KB. The measurement is broken, not the route.`
+    );
+    process.exit(1);
+  }
   results.push({ route, kb: total / 1024 });
 }
 

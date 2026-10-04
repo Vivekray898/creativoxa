@@ -23,6 +23,10 @@ const CANONICAL_HOST = "www.creativoxa.com";
 // policy to public/.
 const IMMUTABLE = "public, max-age=31536000, immutable";
 
+// For assets served from a fixed path (the favicon set), where the URL does not
+// change when the bytes do.
+const REVALIDATE = "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800";
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
@@ -89,6 +93,22 @@ const nextConfig: NextConfig = {
       {
         source: "/:path*.ico",
         headers: [{ key: "Cache-Control", value: IMMUTABLE }],
+      },
+
+      {
+        // `/favicon.ico` is served from a fixed, un-hashed path, so the
+        // `/:path*.ico` rule above would pin a rebrand in every visitor's cache
+        // for a year. This must come AFTER it: Next applies the LAST matching
+        // rule for a header key, so placing this first leaves it inert. Both
+        // orderings were measured with curl against a real `next start`.
+        //
+        // `app/icon.png` and `app/apple-icon.png` deliberately get no override.
+        // Next serves those metadata routes as
+        // `public, max-age=31536000, immutable` itself and never consults
+        // `headers()` for them, so a rule for those paths would be dead weight.
+        // Confirmed by deleting the `/:path*.png` rule and re-measuring.
+        source: "/favicon.ico",
+        headers: [{ key: "Cache-Control", value: REVALIDATE }],
       },
       {
         source: "/:path*.woff2",

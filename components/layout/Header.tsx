@@ -32,6 +32,18 @@ function Wordmark() {
 export default function Header({ links, services }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  // The drawer is deferred out of the critical bundle and mounted on first open,
+  // but it must then stay mounted: unmounting it the moment `mobileOpen` flips
+  // back to false removes the slide-out/fade-out animation and drops the user
+  // back to the page instantly. `drawerMounted` latches on open and never
+  // releases, so `open` can animate to false exactly as it did when the drawer
+  // was rendered inline.
+  const [drawerMounted, setDrawerMounted] = useState(false);
+
+  const setDrawerOpen = (open: boolean) => {
+    if (open) setDrawerMounted(true);
+    setMobileOpen(open);
+  };
   const [servicesOpen, setServicesOpen] = useState(false);
   const pathname = usePathname();
 
@@ -39,7 +51,7 @@ export default function Header({ links, services }: HeaderProps) {
   const [prevPathname, setPrevPathname] = useState(pathname);
   if (prevPathname !== pathname) {
     setPrevPathname(pathname);
-    if (mobileOpen) setMobileOpen(false);
+    if (mobileOpen) setDrawerOpen(false);
     if (servicesOpen) setServicesOpen(false);
   }
 
@@ -66,7 +78,7 @@ export default function Header({ links, services }: HeaderProps) {
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") {
-        setMobileOpen(false);
+        setDrawerOpen(false);
         setServicesOpen(false);
       }
     }
@@ -180,7 +192,7 @@ export default function Header({ links, services }: HeaderProps) {
             {/* Mobile hamburger */}
             <button
               type="button"
-              onClick={() => setMobileOpen((v) => !v)}
+              onClick={() => setDrawerOpen(!mobileOpen)}
               aria-expanded={mobileOpen}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line text-foreground lg:hidden"
@@ -192,10 +204,10 @@ export default function Header({ links, services }: HeaderProps) {
       </header>
 
       {/* The drawer is portaled to <body>; it mounts on first open. */}
-      {mobileOpen ? (
+      {drawerMounted ? (
         <MobileDrawer
           open={mobileOpen}
-          onClose={() => setMobileOpen(false)}
+          onClose={() => setDrawerOpen(false)}
           links={links}
           services={services}
         />
